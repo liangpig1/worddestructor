@@ -9,7 +9,8 @@ class IndexAction extends Action
     */
     public function index()
     {
-        $this->display(THINK_PATH.'/Tpl/Autoindex/hello.html');
+		$this->assign("content", "Home:Index:index");
+		$this->display("Public::base");
     }
 
     /**
