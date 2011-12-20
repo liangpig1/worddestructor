@@ -58,5 +58,18 @@ class UserAction extends Action
 			return true;
 		else return false;
 	}
+
+	public function selectList($userID, $listID)
+	{
+		$userDao = D("User");
+		$userdata = $userDao->where("id=".$userID)->select();
+		if ($userInfo) {
+			$userdata["currentlistid"] = $listID;
+			$userDao->save($userdata);
+		}
+		else {
+			echo "User not Found";
+		}
+	}
 }
 ?>
