@@ -33,7 +33,7 @@ class UserAction extends Action
 			}
 			else {
 				$this->errMsg = "信息不全";
-				$this->redirect(U("Home-Index/home"), null, 1, $this->errMsg);
+				$this->redirect("Home-Index/home", null, 1, $this->errMsg);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ class UserAction extends Action
 		}
 		else {
 			$this->errMsg = "未登录，无法登出";
-			$this->redirect(U("Home-Index/index"), null, 1, $this->errMsg);
+			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
 		}
 	}
 
