@@ -3,43 +3,32 @@ class UserModel extends Model
 {
     public function getUserByID($id)
     {
-        return D("User")->where("UserID=".$id)->find();
+        return $this->where("id=".$id)->find();
     }
     
-    public function getUsersByName($name)
+    public function getUserByName($name)
     {
-        return D("User")->where('UserName="'.$name.'"')->select();
+        return $this->where('username="'.$name.'"')->find();
     }
     
-    public function getUsers()
+    public function getAllUsers()
     {
-        return D("User")->select();
+        return $this->select();
     }
     
-    public function removeUser($id)
+    public function removeUserByID($id)
     {
-        D("User")->where("UserID=".$id)->delete();
+        $this->where("id=".$id)->delete();
     }
     
     public function insertUser($info)
     {
-        D("User")->add($info);
+        $this->add($info);
     }
     
-    public function updateUserInfo($info)
+    public function updateUser($info)
     {
-        D("User")->save($info);
-    }
-    
-    public function validateUser($name, $pass) 
-    {
-        $catalog = D("user");
-        $condition["UserName"] = '"'.$name.'"';
-        $condition["Password"] = '"'.$pass.'"';
-        $user = $catalog->where($condition)->find();
-        if ($user && $user["isFrozen"] == false)
-            return true;
-        return false;
+        $this->save($info);
     }
 }
 ?>
