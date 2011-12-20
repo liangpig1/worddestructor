@@ -1,35 +1,39 @@
 <?php
 class UserAction extends Action
 {
-	$this->ErrorMsg = "";
+	var $errMsg;
 
 	public function register($regInfo)
 	{
 		if (!$regInfo) 
 			$regInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 		if ($this->islogin()) {
-			echo "logined";
+			$this->errMsg = null;
+			return true;
 		}
 		else {
 			$userDao = D("User");
 			if (checkuserdata($regInfo)) {
 				if ($userDao->where("username=".$regInfo["username"])->select()) {
-					echo "Register Fail";
+					$this->errMsg = "Register Fail";
 					return false;
 				}
 				else {
 					$userDao->add($regInfo);
 					if ($userDao->getError()) {
-						$this->ErrorMsg = "Add Fail";
+						$this->errMsg = "Add Fail";
 						return false;
 					}
 					else {
-						$this->ErrorMsg = null;
+						$this->errMsg = null;
 						return true;
 					}
 				}
 			}
-			else echo "Data Not Complete";
+			else {
+				$this->errMsg = "Register Data not complete";
+				return false;
+			}
 		}
 	}
 
@@ -38,6 +42,7 @@ class UserAction extends Action
 		if (!$logInfo) 
 			$logInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 		if ($this->isLogin()) {
+			$this->errMsg = null;
 			return true;
 		}
 		else {
@@ -45,17 +50,17 @@ class UserAction extends Action
 				$condition = array("username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]);
 				$userDao = D("User");
 				if ($userDao->where($condition)->select()) {
-					echo "login Sucessful";
+					$this->errMsg = null;
 					$SESSION["uid"]=$userID;
 					return true;
 				}
 				else {
-					echo "Wrong username or password";
+					$this->errMsg = "Wrong username or password";
 					return false;
 				}
 			}
 			else {
-				echo "Data Not Complete";
+				$this->errMsg = "Login Data not Complete";
 				return false;
 			}
 		}
@@ -63,11 +68,15 @@ class UserAction extends Action
 
 	public function unlogin()
 	{
-		if ($this->isLogin()) {
+		if ($this->islogin()) {
 			unset($SESSION["uid"]);
-			echo "unlogin successful";
+			$this->errMsg = null;
+			return true;
 		}
-		else echo "not login";
+		else {
+			$this->errMsg = "Not login";
+			return false;
+		}
 	}
 
 	public function islogin() 
