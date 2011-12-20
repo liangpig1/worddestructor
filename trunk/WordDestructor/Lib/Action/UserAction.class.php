@@ -1,8 +1,12 @@
 <?php
 class UserAction extends Action
 {
+	$this->ErrorMsg = "";
+
 	public function register($regInfo)
 	{
+		if (!$regInfo) 
+			$regInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 		if ($this->islogin()) {
 			echo "logined";
 		}
@@ -11,13 +15,18 @@ class UserAction extends Action
 			if (checkuserdata($regInfo)) {
 				if ($userDao->where("username=".$regInfo["username"])->select()) {
 					echo "Register Fail";
+					return false;
 				}
 				else {
 					$userDao->add($regInfo);
 					if ($userDao->getError()) {
-						echo "Add Fail";
+						$this->ErrorMsg = "Add Fail";
+						return false;
 					}
-					else echo "Success";
+					else {
+						$this->ErrorMsg = null;
+						return true;
+					}
 				}
 			}
 			else echo "Data Not Complete";
@@ -26,8 +35,10 @@ class UserAction extends Action
 
 	public function login($logInfo)
 	{
+		if (!$logInfo) 
+			$logInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 		if ($this->isLogin()) {
-			echo "logined";
+			return true;
 		}
 		else {
 			if (checkuserdata($logInfo)) {
@@ -36,10 +47,17 @@ class UserAction extends Action
 				if ($userDao->where($condition)->select()) {
 					echo "login Sucessful";
 					$SESSION["uid"]=$userID;
+					return true;
 				}
-				else echo "Wrong username or password";
+				else {
+					echo "Wrong username or password";
+					return false;
+				}
 			}
-			else echo "Data Not Complete";
+			else {
+				echo "Data Not Complete";
+				return false;
+			}
 		}
 	}
 
@@ -59,17 +77,8 @@ class UserAction extends Action
 		else return false;
 	}
 
-	public function selectList($userID, $listID)
+	public function getError()
 	{
-		$userDao = D("User");
-		$userdata = $userDao->where("id=".$userID)->select();
-		if ($userInfo) {
-			$userdata["currentlistid"] = $listID;
-			$userDao->save($userdata);
-		}
-		else {
-			echo "User not Found";
-		}
 	}
 }
 ?>
