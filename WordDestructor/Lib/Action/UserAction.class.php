@@ -1,7 +1,7 @@
 <?php
 class UserAction extends Action
 {
-	var $errMsg;
+	public static $errMsg;
 
 	public function register($regInfo)
 	{
@@ -9,30 +9,31 @@ class UserAction extends Action
 			$regInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 		if ($this->islogin()) {
 			$this->errMsg = null;
-			return true;
+			$this->redirect("Home-Index/home", null, 2, "已登录，自动跳转至前页面...");
 		}
 		else {
 			$userDao = D("User");
 			if (checkuserdata($regInfo)) {
-				if ($userDao->where("username=".$regInfo["username"])->select()) {
-					$this->errMsg = "Register Fail";
-					return false;
+				if ($userDao->where("username='".$regInfo["username"]."'")->select()) {
+					$this->errMsg = "已存在该用户名";
+					$this->redirect("Home-Index/index", null, 2, $this->errMsg);
 				}
 				else {
 					$userDao->add($regInfo);
 					if ($userDao->getError()) {
-						$this->errMsg = "Add Fail";
-						return false;
+						$this->errMsg = "添加用户失败";
+						$this->redirect("Home-Index/home", null, 2, $this->errMsg);
 					}
 					else {
 						$this->errMsg = null;
-						return true;
+						echo "注册成功.正在登录中...<br/>";
+						$this->login($loginData);
 					}
 				}
 			}
 			else {
-				$this->errMsg = "Register Data not complete";
-				return false;
+				$this->errMsg = "信息不全";
+				$this->redirect(U("Home-Index/home"), null, 2, $this->errMsg);
 			}
 		}
 	}
@@ -43,25 +44,27 @@ class UserAction extends Action
 			$logInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 		if ($this->isLogin()) {
 			$this->errMsg = null;
-			return true;
+			$this->redirect("Home-Index/home", null, 2, "已登录，自动登录前页面...");
 		}
 		else {
 			if (checkuserdata($logInfo)) {
 				$condition = array("username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]);
 				$userDao = D("User");
-				if ($userDao->where($condition)->select()) {
+				$user = $userDao->where($condition)->select();
+				$user = $user[0];
+				if ($user) {
 					$this->errMsg = null;
-					$SESSION["uid"]=$userID;
-					return true;
+					$_SESSION["uid"]=$user["id"];
+					$this->redirect("Home-Index/home", null, 2, "已登录，自动登录前页面...");
 				}
 				else {
-					$this->errMsg = "Wrong username or password";
-					return false;
+					$this->errMsg = "用户名或密码错误";
+					$this->redirect("Home-Index/index", null, 2, $this->errMsg);
 				}
 			}
 			else {
-				$this->errMsg = "Login Data not Complete";
-				return false;
+				$this->errMsg = "登录信息不全";
+				$this->redirect("Home-Index/index", null, 2, $this->errMsg);
 			}
 		}
 	}
@@ -69,25 +72,26 @@ class UserAction extends Action
 	public function unlogin()
 	{
 		if ($this->islogin()) {
-			unset($SESSION["uid"]);
+			unset($_SESSION["uid"]);
 			$this->errMsg = null;
-			return true;
+			$this->redirect("Home-Index/index", null, 2, "已登出，自动跳转至首页...");
 		}
 		else {
-			$this->errMsg = "Not login";
-			return false;
+			$this->errMsg = "未登录，无法登出";
+			$this->redirect(U("Home-Index/index"), null, 2, $this->errMsg);
 		}
 	}
 
 	public function islogin() 
 	{
-		if (isset($SESSION["uid"]) && $SESSION["uid"] != "")
+		if (isset($_SESSION["uid"]) && $_SESSION["uid"] != "")
 			return true;
 		else return false;
 	}
 
 	public function getError()
 	{
+		return $this->errMsg;
 	}
 }
 ?>
