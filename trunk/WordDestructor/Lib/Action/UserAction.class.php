@@ -27,7 +27,7 @@ class UserAction extends Action
 					else {
 						$this->errMsg = null;
 						echo "注册成功.正在登录中...<br/>";
-						$this->login($loginData);
+						$this->login($regInfo);
 					}
 				}
 			}
@@ -51,7 +51,6 @@ class UserAction extends Action
 				$condition = array("username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]);
 				$userDao = D("User");
 				$user = $userDao->getUserByName($logInfo["username"]);
-				dump($user);
 				if ($user["pwd"] == $logInfo["pwd"]) {
 					$this->errMsg = null;
 					$_SESSION["uid"]=$user["id"];
