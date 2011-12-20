@@ -31,7 +31,8 @@ class UserAction extends Action
 		}
 		else {
 			if (checkuserdata($logInfo)) {
-				$condition = ["username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]];
+				$condition = array("username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]);
+				$userDao = D("User");
 				if ($userDao->where($condition)->select()) {
 					echo "login Sucessful";
 					$SESSION["uid"]=$userID;
