@@ -1,16 +1,10 @@
 <?php
-// 本文档自动生成，仅供测试运行
 class IndexAction extends Action
 {
-    /**
-    +----------------------------------------------------------
-    * 默认操作
-    +----------------------------------------------------------
-    */
     public function index()
     {
 		$this->assign("content", "Home:Index:index");
-		$this->display("Public::base");
+		$this->display("Home:Public:base");
     }
 
     /**
