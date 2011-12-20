@@ -4,9 +4,16 @@ class AdminAction extends Action
 	public function freezeUser($userID)
 	{
 		$userDao = D("User");
-		$data['id'] = $userID;
-		$data['stat'] = false;
-		$userDao->where('id='.$userID)->save($data);
+		if ($userID != '') {
+			echo "Invalid UserID.";
+		}
+		else {
+			$data['id'] = $userID;
+			$data['stat'] = false;
+			$userDao->where('id='.$userID)->save($data); //TODO whether find....
+			if ($userDao->getError()) 
+				echo $userDao->getError();
+		}
 	}
 
 	public function unfreezeUser($userID)
