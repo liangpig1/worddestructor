@@ -10,7 +10,7 @@ class AdminAction extends Action
 		else {
 			$data['id'] = $userID;
 			$data['stat'] = false;
-			$userDao->where('id='.$userID)->save($data); //TODO whether find....
+			$userDao->updateUser($data); //TODO whether find....
 			if ($userDao->getError()) 
 				echo $userDao->getError();
 		}
@@ -21,19 +21,20 @@ class AdminAction extends Action
 		$userDao = D("User");
 		$data['id'] = $userID;
 		$data['stat'] = true;
-		$userDao->where('id='.$userID)->save($data);
+		//$userDao->where('id='.$userID)->save($data);
+		$userDao->updateUser($data);
 	}
 
 	public function deleteUser($userID)
 	{
 		$userDao = D("User");
-		$userDao->where('id='.$userDao)->delete(); //TODO connected with relational model
+		$userDao->removeUserByID($userID) //TODO connected with relational model
 	}
 
 	public function getUsersByCondition($condition = null)
 	{
 		$userDao = D("User");
-		$userList = $userDao->where($condition)->select(); //TODO condition will be detail at last
+		//$userList = $userDao->where($condition)->select(); //TODO condition will be detail at last
 		return $userList;
 	}
 }
