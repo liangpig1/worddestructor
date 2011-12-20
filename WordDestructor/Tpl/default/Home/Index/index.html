@@ -1,8 +1,24 @@
 	<div>
 		<p>Login</p>
-		<form method=post action=__URL__/index>
-			<label>name</label><input tye=text name=username />
-			<label>password</label><input tye=text name=pwd />
-			<input type=submit value =提交 />
+		<form method=post action=__APP__/User/login>
+			<label>name</label><input type=text name=username />
+			<label>password</label><input type=password name=pwd />
+			<input type=submit value=提交 />
+		</form>
+	</div>
+	<hr/>
+	<div>
+		<p>Login</p>
+		<form method=post action=__APP__/User/register>
+			<label>name</label><input type=text name=username value='' />
+			<label>passowrd</label><input type=password name=pwd value='' />
+			<input type=submit value=注册 />
+		</form>
+	</div>
+	<hr/>
+	<div>
+		<h1>Look UP WORDS!!!</h1>
+		<form method=pos action=__APP__/dictionary/search />
+			<input type=text name=word /> <input type=submit value="Get It!!" />
 		</form>
 	</div>
