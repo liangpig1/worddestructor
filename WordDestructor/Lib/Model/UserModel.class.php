@@ -18,12 +18,12 @@ class UserModel extends Model
     
     public function removeUserByID($id)
     {
-        $this->where("id=".$id)->delete();
+		return $this->where("id=".$id)->delete();
     }
     
     public function insertUser($info)
     {
-        $this->add($info);
+        return $this->add($info);
     }
     
     public function updateUser($info)

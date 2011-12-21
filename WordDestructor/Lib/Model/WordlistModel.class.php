@@ -13,13 +13,13 @@ class WordlistModel extends Model
     
     public function removeWordList($listId)
     {
-        $this->where("id=".$listId)->delete();
+        return $this->where("id=".$listId)->delete();
     }
     
     //新建一个空词单
     public function addWordList($listInfo)
     {
-        $this->add($listInfo);
+        return $this->add($listInfo);
     }
     
     public function updateWordList($listInfo)
