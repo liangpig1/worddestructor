@@ -59,7 +59,7 @@ class UserAction extends Action
 					}
 					else {
 						$this->errMsg = "用户已被冻结";
-						$this->redirect("Home-Index/index", null, 1, "已登录，自动登录前页面...");
+						$this->redirect("Home-Index/index", null, 1, $this->errMsg);
 					}
 				}
 				else {

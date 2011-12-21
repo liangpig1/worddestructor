@@ -19,7 +19,7 @@ class IndexAction extends Action
 			$this->display("Home:Public:base");
 		}
 		else {
-			$this->errMsg = "未登录，跳转至首页";
+			$this->errMsg = "未登录";
 			$this->redirect("Home-Index/index", 1, null, $this->errMsg);
 		}
 	}

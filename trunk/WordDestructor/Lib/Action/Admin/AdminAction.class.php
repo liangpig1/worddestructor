@@ -22,7 +22,6 @@ class AdminAction extends Action
 			$userDao = D("User");
 			$user = $userDao->getUserByID($userID);
 			if ($user) {
-				dump($user);
 				$user['state'] = 1;
 				$userDao->updateUser($user);
 				$this->redirect("Home-index/home", null, 1, "用户冻结成功");
@@ -45,7 +44,6 @@ class AdminAction extends Action
 			$userDao = D("User");
 			$user = $userDao->getUserByID($userID);
 			if ($user) {
-				dump($user);
 				$user['state'] = 0;
 				$userDao->updateUser($user);
 				$this->redirect("Home-index/home", null, 1, "用户解冻成功");
