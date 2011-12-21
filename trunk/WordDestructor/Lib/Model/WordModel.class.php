@@ -1,24 +1,32 @@
 <?php
 class WordModel extends Model
 {
-    public function getWordByList($id)
+    public function addWord($eng, $chn, $libId)
     {
-        return $this->where("listId=".$id)->select();
+        $data["eng"] = $eng;
+        $data["chn"] = $chn;
+        $data["libId"] = $libId;
+        $this->add($data);
     }
     
-    public function getWordByLibrary($id)
+    public function delWordsByLibId($libId)
     {
-        return $this->where("libId=".$id)->select();
+        $this->where("libId=".$libId)->delete();
     }
     
-    public function removeWord($id)
+    public function delWordById($wordId)
     {
-        $this->where("id=".$id)->delete();
+        $this->where("id=".$wordId)->delete();
     }
     
-    public function insertWord($info)
+    public function getWordsByLibId($libId)
     {
-        $this->add($info);
+        return $this->where("libId=".$libid)->select();
+    }
+    
+    public function getWordById($wordId)
+    {
+        return $this->where("id=".$wordId)->find();
     }
 }
 ?>
