@@ -6,8 +6,15 @@
 		<eq name="authority" value="1" >
 			<div>
 				<h2>管理员权限</h2>
-				<a href=#>列出所有用户</a>
+				<a id=list_all_user href=#>列出所有用户</a>
+				<div id=content>
+				</div>
 			</div>
 		</eq>
 		<a href=<?php echo U("User/unlogin"); ?>>退出登录</a>
 	</div>
+	<script type=text/javascript>
+		$("#list_all_user").click(function(){
+				$("#content").load("{:U('Admin-Admin/listAllUsers');}");
+		});
+	</script>
