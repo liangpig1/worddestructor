@@ -3,7 +3,7 @@ class WordlibraryModel extends Model
 {
 	public function getLibrary($libraryID)
 	{
-		return $this->where("libID=".$libraryID)->select();
+		return $this->where("ID=".$libraryID)->select();
 	}
 	
 	public function getAllLibraries()
@@ -13,7 +13,7 @@ class WordlibraryModel extends Model
 	
 	public function removeWordLibrary($libraryID)
 	{
-		$this->where("libID=".$libraryID)->delete();
+		$this->where("ID=".$libraryID)->delete();
 	}
 	
 	//新建一个空词库
