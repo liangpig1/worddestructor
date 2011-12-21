@@ -14,15 +14,27 @@ class WordlibraryAction extends Action
 		$libraryDao->removeWordLibrary($libraryID);
 	}
 	
-	public function addLibrary($name,$listOfWord)
+	public function addLibrary($name)
 	{
-		$libraryDao = D("Wordlibrary");
-		$wordDao = D("Word");
-		$libInfo["name"] = $name;
+		if (A("User")->islogin()) //TODO only admin can
+		{
+			foreach ($_FILES as $file)
+			{
+				$fsrc = $file["tmp_name"];
+				$fbuf = file_get_contents($fsrc);
+				$wordList = fileParse($fbuf);
+			}
+
+			//$libraryDao = D("Wordlibrary");
+			//$wordDao = D("Word");
+			//$libInfo["name"] = $name;
 		
-		$libID = $libraryDao->addWordLibrary($libInfo);
-		foreach($word as $listOfWord){
-			$wordDao->addWord($word["eng"],$word["chn"],$libID);
+			//$libID = $libraryDao->addWordLibrary($libInfo);
+			//foreach($word as $listOfWord){
+				//$wordDao->addWord($word["eng"],$word["chn"],$libID);
+			//}
+		}
+		else {
 		}
 	}
 	
