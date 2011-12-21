@@ -11,7 +11,7 @@ class WordlistModel extends Model
         return $this->select();
     }
     
-    public function deleteWordList($listId)
+    public function removeWordList($listId)
     {
         $this->where("id=".$listId)->delete();
     }

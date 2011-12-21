@@ -22,7 +22,7 @@ class WordRefModel extends Model
         return $this->where("userId=".$userId)->select();
     }
     
-    public function delWordRefsByUser($userId)
+    public function removeWordRefsByUser($userId)
     {
         $this->where("userId=".$userId)->delete();
     }
@@ -32,7 +32,7 @@ class WordRefModel extends Model
         return $this->where("libId=".$libId)->select();
     }
     
-    public function delWordRefsByLib($libId)
+    public function removeWordRefsByLib($libId)
     {
         $this->where("libId=".$libId)->delete();
     }
