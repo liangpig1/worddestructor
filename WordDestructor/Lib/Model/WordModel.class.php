@@ -9,12 +9,12 @@ class WordModel extends Model
         $this->add($data);
     }
     
-    public function delWordsByLibId($libId)
+    public function removeWordsByLibId($libId)
     {
         $this->where("libId=".$libId)->delete();
     }
     
-    public function delWordById($wordId)
+    public function removeWordById($wordId)
     {
         $this->where("id=".$wordId)->delete();
     }
