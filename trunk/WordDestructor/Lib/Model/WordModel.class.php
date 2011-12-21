@@ -1,11 +1,11 @@
 <?php
 class WordModel extends Model
 {
-    public function addWord($eng, $chn, $libId)
+    public function addWord($eng, $chn, $libID)
     {
         $data["eng"] = $eng;
         $data["chn"] = $chn;
-        $data["libId"] = $libId;
+        $data["libID"] = $libID;
         return $this->add($data);
     }
     
