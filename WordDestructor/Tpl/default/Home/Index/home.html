@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 		<title>Menu Test</title>
 		<style type="text/css">
-			<!--
 			.container {
 				width: 1000px;
 				margin: 0 auto;
@@ -31,6 +30,12 @@
 				font-weight: bold;
 				padding: 5px;
 			}
+			.menu_title:hover {
+				background-color:#ffaec9;
+				color: #ffffff;
+				cursor: pointer;
+			}
+
 			.menu_entry {
 				font-size: 14px;
 				padding: 5px;
@@ -59,7 +64,6 @@
 			.clear {
 				clear: both;
 			}
-			-->
 		</style>
 	</head>
 	
@@ -70,7 +74,7 @@
 		
 		<div class="menu">
 			<div class=menu_title><a id=list_all_wordlist href=#>词单</a></div>
-			<div class=menu_title>词库</div>
+			<div class=menu_title id=libButton>词库</div>
 			<div class=menu_title>词典</div>
 			<div class=menu_title>设置</div>
                 <div class=menu_entry>更改密码</div>
@@ -94,8 +98,7 @@
 		
 		<div class="info">
 			<div class="info_text">
-				真心搞不懂啊<br>
-				许悦韬是否喜欢女生早上起来，内裤和床单上充满精液的样子~~
+				All rights reserved.
 			</div>
 			
 		</div>
@@ -103,9 +106,12 @@
 </html>
 
 <script type=text/javascript>
-    $("#list_all_user").click(function(){
-        $("#repo").load("{:U('Admin-Admin/listAllUsers');}");
-    });
+$("#list_all_user").click(function(){
+		$("#repo").load("{:U('Admin-Admin/listAllUsers');}");
+	});
+$("#libButton").click(function(){
+		$("#repo").load("{:U('Home-Wordlibrary/show');}");
+		});
     $("#list_all_wordlist").click(function(){
         $("#repo").load("{:U('Home-Wordlist/listWordListsByUser');}");
     });

@@ -1,4 +1,7 @@
-<form method="<?php echo U('Home-Wordlibrary/addLibrary');?>" action="post" >
-	<input type=file name=fileBuf />
+<h2>上传词库</h2>
+<form action="<?php echo U('Home-Wordlibrary/addLibrary');?>" method=post enctype=multipart/form-data >
+	<label>词库名称</label><input type=text name=name value=cet /><br/>
+	<label>词库文件</label><input type="file" name="fileBuf" />
+	<br/>
 	<input type=submit value=上传词单 />
 </form>
