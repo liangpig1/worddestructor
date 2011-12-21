@@ -85,6 +85,32 @@ class WordlistAction extends Action
 		}
 	}
     
+    public function viewList($listID)
+    {
+        if (A("User")->islogin())
+        {
+            if (!$listID) $listID = $_GET["listID"];
+            $wordrefDao = D("WordRef");
+            //$wordrefs = $wordrefDao->getWordRefsByList($listID);
+            $wordrefs = $wordrefDao->select();
+            if ($wordrefs) {} else {
+                $this->errMsg = "法克";
+                $this->redirect("Home-Index/index", null, 1, $this->errMsg);
+            }
+            $wordDao = D("Word");
+            $words = Array();
+            foreach ($wordrefs as $wordref)
+            {
+                array_push($words, $wordDao->getWordById($wordref["wordId"]));
+            }
+            $this->assign("words", $words);
+            $this->display("Home:Wordlist:viewlist");
+        } else {
+            $this->errMsg = "未登录";
+			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+        }
+    }
+    
 	public function listWordListsByUser()
 	{
 		if (A("User")->islogin())
