@@ -1,5 +1,5 @@
 <?php
-class WordRefModel extends Model
+class WordrefModel extends Model
 {
     //生成新用户$userId的所有wordRef
     public function addWordRefsByUser($userId)
