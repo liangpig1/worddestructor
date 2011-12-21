@@ -42,7 +42,7 @@ class WordlistAction extends Action
 
 	public function removeList($listID)
 	{
-		if (A("User")->islogin())
+		if (A("User")->islogin()){
 		{
 			if (!$listID) $listID = $_GET["listID"];
 			$listDao = D("Wordlist");
