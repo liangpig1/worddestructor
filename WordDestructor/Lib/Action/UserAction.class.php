@@ -52,9 +52,15 @@ class UserAction extends Action
 				$userDao = D("User");
 				$user = $userDao->getUserByName($logInfo["username"]);
 				if ($user["pwd"] == $logInfo["pwd"]) {
-					$this->errMsg = null;
-					$_SESSION["uid"]=$user["id"];
-					$this->redirect("Home-Index/home", null, 1, "已登录，自动登录前页面...");
+					if ($user["state"] == 0) {
+						$this->errMsg = null;
+						$_SESSION["uid"]=$user["id"];
+						$this->redirect("Home-Index/home", null, 1, "已登录，自动登录前页面...");
+					}
+					else {
+						$this->errMsg = "用户已被冻结";
+						$this->redirect("Home-Index/index", null, 1, "已登录，自动登录前页面...");
+					}
 				}
 				else {
 					$this->errMsg = "用户名或密码错误";
