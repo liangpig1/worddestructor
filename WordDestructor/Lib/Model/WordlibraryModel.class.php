@@ -6,14 +6,25 @@ class WordlibraryModel extends Model
 		return $this->where("libID=".$libraryID)->select();
 	}
 	
-	public function removeLibrary($libraryID)
+	public function getAllLibraries()
+	{
+		return $this->select();
+	}
+	
+	public function removeWordLibrary($libraryID)
 	{
 		$this->where("libID=".$libraryID)->delete();
 	}
 	
-	public function insertLibrary($description,$listOfWord)
+	//新建一个空词库
+	public function addWordLibrary($libraryInfo)
 	{
-		$data["name"]
+		$this->add($libraryInfo);
+	}
+	
+	public function updateWordLibrary($libraryInfo)
+	{
+		$this->save($libraryInfo);
 	}
 }
 ?>
