@@ -10,20 +10,16 @@ class WordlibraryAction extends Action
 	public function addLibrary($name,$listOfWord)
 	{
 		$libraryDao = D("Wordlibrary");
-		$libID = $libraryDao->getLastInsID();
 		$wordDao = D("Word");
 		$libInfo["name"] = $name;
-		$libraryDao->addWordLibrary($libInfo);
+		
+		$libID = $libraryDao->addWordLibrary($libInfo);
 		foreach($word as $listOfWord){
-			$wordDao->addWord($word["eng"],$word["chn"],$libDao);
+			$wordDao->addWord($word["eng"],$word["chn"],$libID);
 		}
 	}
 	
-	public function listLibrariesByCondition($conditon = null)
-	{
-	}
-	
-	public function listLibraryByUser($userID)
+	public function listAllLibrary()
 	{
 	}
 	
