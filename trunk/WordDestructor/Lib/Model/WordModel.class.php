@@ -6,17 +6,17 @@ class WordModel extends Model
         $data["eng"] = $eng;
         $data["chn"] = $chn;
         $data["libId"] = $libId;
-        $this->add($data);
+        return $this->add($data);
     }
     
     public function removeWordsByLibId($libId)
     {
-        $this->where("libId=".$libId)->delete();
+        return $this->where("libId=".$libId)->delete();
     }
     
     public function removeWordById($wordId)
     {
-        $this->where("id=".$wordId)->delete();
+        return $this->where("id=".$wordId)->delete();
     }
     
     public function getWordsByLibId($libId)

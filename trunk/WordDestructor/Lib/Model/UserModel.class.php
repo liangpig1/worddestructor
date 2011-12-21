@@ -18,7 +18,7 @@ class UserModel extends Model
     
     public function removeUserByID($id)
     {
-		return $this->where("id=".$id)->delete();
+        return $this->where("id=".$id)->delete();
     }
     
     public function insertUser($info)
@@ -28,7 +28,7 @@ class UserModel extends Model
     
     public function updateUser($info)
     {
-        $this->save($info);
+        return $this->save($info);
     }
 }
 ?>

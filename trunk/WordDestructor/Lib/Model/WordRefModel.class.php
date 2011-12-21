@@ -13,8 +13,9 @@ class WordRefModel extends Model
             $data["listId"] = 0; //listId == 0表示未在任何词单内
             $data["libId"] = $word["libId"];
             $data["userId"] = $userId;
-            $this->add($data);
+            $id = $this->add($data);
         }
+        return $id;
     }
     
     //对新词库libId，对所有用户生成相对应的所有wordRef
@@ -33,9 +34,10 @@ class WordRefModel extends Model
             {
                 $data["wordId"] = $word["id"];
                 $data["userId"] = $user["id"];
-                $this->add($data);
+                $id = $this->add($data);
             }
         }
+        return $id;
     }
     
     public function getWordRefsByUser($userId)
@@ -45,7 +47,7 @@ class WordRefModel extends Model
     
     public function removeWordRefsByUser($userId)
     {
-        $this->where("userId=".$userId)->delete();
+        return $this->where("userId=".$userId)->delete();
     }
     
     public function getWordRefsByLib($libId)
@@ -55,7 +57,7 @@ class WordRefModel extends Model
     
     public function removeWordRefsByLib($libId)
     {
-        $this->where("libId=".$libId)->delete();
+        return $this->where("libId=".$libId)->delete();
     }
     
     public function getWordRefsByList($listId)
@@ -68,13 +70,13 @@ class WordRefModel extends Model
         $condition["userId"] = $userId;
         $condition["wordId"] = $wordId;
         $info["listId"] = $listId;
-        $this->where($condition)->save($info);
+        return $this->where($condition)->save($info);
     }
     
     public function deattachWordRefsByList($listId)
     {
         $info["listId"] = 0;
-        $this->where("listId=".$listId)->save($info);
+        return $this->where("listId=".$listId)->save($info);
     }
     
     public function getWordRefsByState($state)
@@ -85,7 +87,7 @@ class WordRefModel extends Model
     public function setStateByList($state, $listId)
     {
         $info["state"] = $state;
-        $this->where("listId=".$listId)->save($info);
+        return $this->where("listId=".$listId)->save($info);
     }
     
     public function getWordRefById($id)
