@@ -51,7 +51,7 @@ class UserAction extends Action
 				$condition = array("username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]);
 				$userDao = D("User");
 				$user = $userDao->getUserByName($logInfo["username"]);
-				if ($user["pwd"] == $logInfo["pwd"]) {
+				if ($user && $user["pwd"] == $logInfo["pwd"]) {
 					if ($user["state"] == 0) {
 						$this->errMsg = null;
 						$_SESSION["uid"]=$user["id"];
