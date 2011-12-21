@@ -1,20 +1,109 @@
-	<div>
-		<a href=#>词典操作</a>
-		<a href=#>词单操作</a>
-		<a href=#>词库操作</a>
-		<a href=#>用户管理</a>
-		<eq name="authority" value="1" >
-			<div>
-				<h2>管理员权限</h2>
-				<a id=list_all_user href=#>列出所有用户</a>
-				<div id=content>
-				</div>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<title>Menu Test</title>
+		<style type="text/css">
+			<!--
+			#container {
+				width: 1000px;
+				margin: 0 auto;
+			}
+			#title {
+				background: #bbb;
+				width: 98%;
+				height: 50px;
+				margin-bottom: 10px;
+			}
+			#title_text {
+				font-size: 30px;
+				font-weight: bold;
+				padding: 10px;
+			}
+			#menu {
+				background: #ddf;
+				width: 20%;
+				float: left;
+				min-height: 300px;
+			}
+			#menu_title {
+				font-size: 16px;
+				font-weight: bold;
+				padding: 5px;
+			}
+			#menu_entry {
+				font-size: 14px;
+				padding: 5px;
+				text-indent: 25px;
+			}
+			#main {
+				background: #dfd;
+				width: 77%;
+				float: left;
+				min-height: 300px;
+				margin-left: 1%;
+			}
+			#main_text {
+				padding: 20px;
+			}
+			#info {
+				background: #bbb;
+				width: 98%;
+				height: 50px;
+				margin-top: 10px;
+			}
+			#info_text {
+				font-size: 14px;
+				padding: 5px;
+			}
+			#clear {
+				clear: both;
+			}
+			-->
+		</style>
+	</head>
+	
+	<body><div id="container">
+		<div id="title">
+			<div id="title_text">砍单词 WordsDestructor</div>
+		</div>
+		
+		<div id="menu">
+			<div id="menu_title">词单</div>
+			<div id="menu_title">词库</div>
+			<div id="menu_title">词典</div>
+			<div id="menu_title">设置</div>
+                <div id="menu_entry">更改密码</div>
+                <div id="menu_entry">记忆偏好</div>
+            <eq name="authority" value="1">
+			<div id="menu_title">管理员</div>
+                <div id="menu_entry"><a id=list_all_user href=#>用户</a></div>
+                <div id="menu_entry">日志</div>
+            </eq>
+			<div id="menu_title"><a href=<?php echo U("User/unlogin"); ?>>退出</a></div>
+		</div>
+		
+		<div id="main">
+			<div id="main_text">
+			<div id=content>
 			</div>
-		</eq>
-		<a href=<?php echo U("User/unlogin"); ?>>退出登录</a>
-	</div>
-	<script type=text/javascript>
-		$("#list_all_user").click(function(){
-				$("#content").load("{:U('Admin-Admin/listAllUsers');}");
-		});
-	</script>
+			</div>
+		</div>
+		
+		<div id="clear"></div>
+		
+		<div id="info">
+			<div id="info_text">
+				真心搞不懂啊<br>
+				原来是我太蠢了。。。。。。。。。。。。。。。。。。。。
+			</div>
+			
+		</div>
+	</div></body>
+</html>
+
+<script type=text/javascript>
+    $("#list_all_user").click(function(){
+        $("#content").load("{:U('Admin-Admin/listAllUsers');}");
+    });
+</script>
