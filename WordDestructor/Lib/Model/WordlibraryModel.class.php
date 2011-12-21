@@ -19,7 +19,7 @@ class WordlibraryModel extends Model
 	//新建一个空词库
 	public function addWordLibrary($libraryInfo)
 	{
-		$this->add($libraryInfo);
+		return $this->add($libraryInfo);
 	}
 	
 	public function updateWordLibrary($libraryInfo)
