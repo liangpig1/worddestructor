@@ -13,7 +13,7 @@ class WordlibraryModel extends Model
 	
 	public function insertLibrary($description,$listOfWord)
 	{
-		
+		$data["name"]
 	}
 }
 ?>
