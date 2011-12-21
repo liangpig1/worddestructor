@@ -1,6 +1,11 @@
 <?php
 class WordlistModel extends Model
 {
+    public function getListById($listId)
+    {
+        return $this->where("id=".$listId)->find();
+    }
+
     public function getListsByUser($userId)
     {
         return $this->where("userId=".$userId)->select();
@@ -24,8 +29,7 @@ class WordlistModel extends Model
     
     public function updateWordList($listInfo)
     {
-        $this->save($listInfo);
+        return $this->save($listInfo);
     }
 }
-
 ?>
