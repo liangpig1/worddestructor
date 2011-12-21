@@ -1,6 +1,7 @@
 <?php
 class WordRefModel extends Model
 {
+    //生成新用户$userId的所有wordRef
     public function addWordRefsByUser($userId)
     {
         $wordDao = D("Word");
@@ -8,8 +9,8 @@ class WordRefModel extends Model
         foreach ($list as $word)
         {
             $data["wordId"] = $word["id"];
-            $data["state"] = 0; //state == 0��ʾδѧϰ
-            $data["listId"] = 0; //listId == 0��ʾδ���κδʵ���
+            $data["state"] = 0; //state == 0表示未学习
+            $data["listId"] = 0; //listId == 0表示未在任何词单内
             $data["libId"] = $word["libId"];
             $data["userId"] = $userId;
             $this->add($data);
@@ -39,6 +40,14 @@ class WordRefModel extends Model
     public function getWordRefsByList($listId)
     {
         return $this->where("listId=".$listId)->select();
+    }
+    
+    public function attachWordRefToList($userId, $wordId, $listId)
+    {
+        $condition["userId"] = $userId;
+        $condition["wordId"] = $wordId;
+        $info["listId"] = $listId;
+        $this->where($condition)->save($info);
     }
     
     public function deattachWordRefsByList($listId)
