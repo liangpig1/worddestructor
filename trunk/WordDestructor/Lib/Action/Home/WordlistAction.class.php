@@ -29,15 +29,23 @@ class WordlistAction extends Action
 		}
 	}
 
-	public function addWordToList($listID, $word)
+	public function addWordToList($listId, $wordId)
 	{
 		if (A("User")->islogin())
 		{
+            $userId = $_SESSION["uid"];
+            $wordrefDao = D("WordRef");
+            $ret = $wordrefDao->attachWordRefToList($userId, $wordId, $listId);
+            if ($ret) {
+                $this->errMsg = null;
+            } else {
+                $this->errMsg = "添加失败";
+            }
 		}
 		else {
 			$this->errMsg = "未登录";
-			$this->redirect("Home-Index/index", 1, null, $this->errMsg);
 		}
+        $this->redirect("Home-Index/home", 1, null, $this->errMsg);
 	}
 
 	public function removeList($listID)
@@ -68,7 +76,7 @@ class WordlistAction extends Action
 		{
 			$userDao = D("User");
 			$userdata = $userDao->where("id=".$userID)->select();
-			if ($userInfo) {
+			if ($userdata) {
 				$userdata["currentlistid"] = $listID;
 				$userDao->save($userdata);
 			}
@@ -80,7 +88,7 @@ class WordlistAction extends Action
 	}
 	public function listWordListsByUser()
 	{
-		if (A("User")->islogin()) //TODO uid maynot exists
+		if (A("User")->islogin())
 		{
 			$listDao = D("Wordlist");
 			$wordLists = $listDao->getListsByUser($_SESSION["uid"]);
