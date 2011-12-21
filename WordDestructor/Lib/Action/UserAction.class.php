@@ -68,6 +68,20 @@ class UserAction extends Action
 		}
 	}
 
+	public function changePwd($pwd)
+	{
+		if ($this->islogin())
+		{
+			$pwd = $_POST["pwd"];
+			$udata = array("id"=>$_SESSION["uid"], "pwd"=>$pwd);
+			$this->updateUser($udata);
+		}
+		else {
+			$this->errMsg = "未登录，无法修改密码";
+			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+		}
+	}
+
 	public function unlogin()
 	{
 		if ($this->islogin()) {
@@ -88,7 +102,7 @@ class UserAction extends Action
 		else return false;
 	}
 
-	public function getError()
+	public function getUserError()
 	{
 		return $this->errMsg;
 	}

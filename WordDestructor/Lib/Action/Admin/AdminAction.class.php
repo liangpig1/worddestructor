@@ -1,41 +1,83 @@
 <?php
 class AdminAction extends Action
 {
-	public function freezeUser($userID)
+	public static $errMsg;
+
+	public function authorize($userID)
 	{
 		$userDao = D("User");
-		if ($userID != '') {
-			echo "Invalid UserID.";
+		if ($user = $userDao->getUserByID($userID))
+		{
+			if ($user["authority"]==true) return true; else return false;
+		}
+		else return false
+	}
+
+	public function freezeUser($userID)
+	{
+		if (!$userID) $userID = $_GET["userID"]
+		if (A("User")->islogin() && $this->authorize()) {
+			$userDao = D("User");
+			$user = $userDao->getUserByID($userID);
+			if ($user) {
+				$user['state'] = false;
+				$userDao->updateUser($data);
+			}
+			else {
+				$this->errMsg = "找不到指定用户";
+				$this->redirect("Home-index/home", null, 1, $this->errMsg);
+			}
 		}
 		else {
-			$data['id'] = $userID;
-			$data['stat'] = false;
-			$userDao->updateUser($data); //TODO whether find....
-			if ($userDao->getError()) 
-				echo $userDao->getError();
+			$this->errMsg = "无权限冻结用户";
+			$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
 	}
 
 	public function unfreezeUser($userID)
 	{
-		$userDao = D("User");
-		$data['id'] = $userID;
-		$data['stat'] = true;
-		//$userDao->where('id='.$userID)->save($data);
-		$userDao->updateUser($data);
+		if (!$userID) $userID = $_GET["userID"]
+		if (A("User")->islogin() && $this->authorize()) {
+			$userDao = D("User");
+			$user = $userDao->getUserByID($userID);
+			if ($user) {
+				$user['state'] = true;
+				$userDao->updateUser($data);
+			}
+			else {
+				$this->errMsg = "找不到指定用户";
+				$this->redirect("Home-index/home", null, 1, $this->errMsg);
+			}
+		}
+		else {
+			$this->errMsg = "无权限解冻用户";
+			$this->redirect("Home-index/home", null, 1, $this->errMsg);
+		}
 	}
 
 	public function deleteUser($userID)
 	{
-		$userDao = D("User");
-		$userDao->removeUserByID($userID) //TODO connected with relational model
+		if (!$userID) $userID = $_GET["userID"]
+		if (A("User")->islogin() && $this->authorize()) {
+			$userDao = D("User");
+			$userDao->removeUserByID($userID); //TODO connected with relational model
+		}
+		else {
+			$this->errMsg = "无权限删除用户";
+			$this->redirect("Home-index/home", null, 1, $this->errMsg);
+		}
 	}
 
-	public function getUsersByCondition($condition = null)
+	public function listAllUsers()
 	{
-		$userDao = D("User");
-		//$userList = $userDao->where($condition)->select(); //TODO condition will be detail at last
-		return $userList;
+		if (A("User")->islogin() && $this->authorize()) {
+			$userDao = D("User");
+			return $userDao->getAllUsers();
+		}
+		else {
+			$this->errMsg = "无权限查询用户";
+			$this->redirect("Home-Index/home", null, 1, $this->errMsg);
+		}
 	}
 }
 
