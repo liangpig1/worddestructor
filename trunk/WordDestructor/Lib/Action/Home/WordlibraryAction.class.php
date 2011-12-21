@@ -10,7 +10,7 @@ class WordlibraryAction extends Action
 	{
 	}
 	
-	public function newLibrary($listofword,$discription)
+	public function addLibrary($listofword,$discription)
 	{
 	}
 	
