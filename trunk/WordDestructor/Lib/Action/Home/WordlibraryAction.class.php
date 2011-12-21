@@ -1,28 +1,65 @@
 <?php
 class WordlibraryAction extends Action
 {
+	public static $errMsg;
+	
 	public function removeLibrary($libraryID)
 	{
-		$libraryDao = D("Wordlibrary");
-		$libraryDao->removeWordLibrary($libraryID);
-	}
-	
-	public function addLibrary($name,$listOfWord)
-	{
-		$libraryDao = D("Wordlibrary");
-		$wordDao = D("Word");
-		$libInfo["name"] = $name;
-		
-		$libID = $libraryDao->addWordLibrary($libInfo);
-		foreach($word as $listOfWord){
-			$wordDao->addWord($word["eng"],$word["chn"],$libID);
+		if(A("User")->islogin()){
+			if(!$listID) $listID = $_GET["listID"];
+			$libraryDao = D("Wordlibrary");
+			$ret = $libraryDao->removeWordLibrary($libraryID);
+			if($rest){
+				$this->errMsg = null;
+				$this->redirect("Home-Index/home",1,null,"´Ê¿âÉ¾³ý³É¹¦");
+			}
+			else{
+				$this->errMsg = "Ö¸¶¨´Ê¿âÎ´ÕÒµ½";
+				$this->redirect("Home-Index/home",1,null,$this->errMsg);
+			}
+		}
+		else{
+			$this->errMsg = "Î´µÇÂ¼";
+			$this-redirect("Home-Index/index",1,null,$this->errMsg);
 		}
 	}
 	
-	public function listAllLibrary()
+	public function addLibrary($libInfo)
 	{
+		if(A("User")->islogin()){
+			if(!$libInfo)
+				$libInfo = array("name"=>$_POST["name"],"listOfWord"=>$_POST["listOfWord"]);
+			
+			$libraryDao = D("Wordlibrary");	
+			$wordDao = D("Word");
+		
+			$libID = $libraryDao->addWordLibrary($libInfo["name"]);
+		
+			foreach($word as $libInfo["listOfWord}"]){
+				$wordDao->addWord($word["eng"],$word["chn"],$libID);
+			}
+		}
+		else{
+			$this->errMsg = "Î´µÇÂ¼";
+			$this-redirect("Home-Index/index",1,null,$this->errMsg);
+		}
+		
 	}
 	
+	public function getAllLibrary($libraryID)
+	{
+		if(A("User")->islogin()){
+			if(!$listID) $listID = $_GET["listID"];
+			$libraryDao = D("Wordlibrary");
+			$libraryList = $libraryDao->getAllLibraries();
+			$this->assign("libraryList", $libraryList);
+			$this->display("Home:Library:list");
+		}
+		else{
+			$this->errMsg = "Î´µÇÂ¼";
+			$this-redirect("Home-Index/index",1,null,$this->errMsg);
+		}
+	}
 }
 
 ?>
