@@ -20,11 +20,12 @@ class WordlistModel extends Model
     {
         return $this->where("id=".$listId)->delete();
     }
-    
-    //新建一个空词单
-    public function addWordList($listInfo)
+
+    //new Empty WordList
+    public function addWordList($listData)
     {
-        return $this->add($listInfo);
+		$listData["progress"] = 0;
+        return $this->add($listData);
     }
     
     public function updateWordList($listInfo)
