@@ -205,12 +205,13 @@ function redirect($url, $time=0, $msg='') {
         if (0 === $time) {
             header("Location: " . $url);
         } else {
-            header("refresh:{$time};url={$url}");
+            header("refresh:{$time}; url={$url}");
+			header("Content-Type: text/html; charset=utf-8");
             echo($msg);
         }
         exit();
     } else {
-        $str = "<meta http-equiv='Refresh' content='{$time};URL={$url}'>";
+        $str = "<meta http-equiv='Refresh' content='{$time}; URL={$url}'>";
         if ($time != 0)
             $str .= $msg;
         exit($str);
