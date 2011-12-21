@@ -1,17 +1,22 @@
 <?php
 class WordlibraryAction extends Action
 {
-	public function deleteLibrary($libraryID)
+	public function removeLibrary($libraryID)
 	{
-		$libraryDao = D("library");
+		$libraryDao = D("Wordlibrary");
+		$libraryDao->removeWordLibrary($libraryID);
 	}
 	
-	public function mergeLibrary($libraryID1,$libraryID2)
+	public function addLibrary($name,$listOfWord)
 	{
-	}
-	
-	public function addLibrary($listofword,$discription)
-	{
+		$libraryDao = D("Wordlibrary");
+		$libID = $libraryDao->getLastInsID();
+		$wordDao = D("Word");
+		$libInfo["name"] = $name;
+		$libraryDao->addWordLibrary($libInfo);
+		foreach($word as $listOfWord){
+			$wordDao->addWord($word["eng"],$word["chn"],$libDao);
+		}
 	}
 	
 	public function listLibrariesByCondition($conditon = null)
