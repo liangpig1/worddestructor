@@ -12,18 +12,31 @@
     <tr>
 	<td>{$vo.name}</td>
     <td>{$vo.size}</td>
-    <td>{$vo.progress}</td>
-    <eq name="vo.test" value="1">
-        <td style="color:#FF0000">***现在***</td>
+    <eq name="vo.done" value="0">
+        <td>{$vo.progress}</td>
     </eq>
-    <eq name="vo.test" value="0">
-        <td>{$vo.next}</td>
+    <eq name="vo.done" value="1">
+        <td style="color:#0000FF">已完成</td>
+    </eq>
+    <eq name="vo.done" value="0">
+        <eq name="vo.test" value="1">
+            <td style="color:#FF0000">***现在***</td>
+        </eq>
+        <eq name="vo.test" value="0">
+            <td>{$vo.next}</td>
+        </eq>
+    </eq>
+    <eq name="vo.done" value="1">
+        <td style="color:#0000FF">***已完成***</td>
     </eq>
     <td><a class=del_list href="<?php echo U('Home-Wordlist/removeList/listID/'.$vo['id']);?>">删除</a></td>
     <td><a class=view_list href="<?php echo U('Home-Wordlist/viewList/listID/'.$vo['id']);?>">浏览</a></td>
 	<td><a href='{: U("Home-Wordlist/studylist/".$vo["id"]);}'>
-        <eq name="vo.test" value="1">测试!!!</eq>
-        <eq name="vo.test" value="0">学习</eq>
+        <eq name="vo.done" value="0">
+            <eq name="vo.test" value="1">测试!!!</eq>
+            <eq name="vo.test" value="0">学习</eq>
+        </eq>
+        <eq name="vo.done" value="1">复习</eq>
     </a></td>
     <td><label class=hint></label></td>
 	</tr>
