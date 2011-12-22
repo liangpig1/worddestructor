@@ -35,11 +35,15 @@
 				color: #ffffff;
 				cursor: pointer;
 			}
-
 			.menu_entry {
 				font-size: 14px;
 				padding: 5px;
 				text-indent: 25px;
+			}
+            .menu_entry:hover {
+				background-color:#ffaec9;
+				color: #ffffff;
+				cursor: pointer;
 			}
 			.main {
 				background: #dfd;
@@ -73,7 +77,7 @@
 		</div>
 		
 		<div class="menu">
-			<div class=menu_title><a id=list_all_wordlist href=#>词单</a></div>
+			<div class=menu_title id=list_all_wordlist>词单</div>
 			<div class=menu_title id=libButton>词库</div>
 			<div class=menu_title>词典</div>
 			<div class=menu_title>设置</div>
@@ -81,7 +85,7 @@
                 <div class=menu_entry>记忆偏好</div>
             <eq name="authority" value="1">
 			<div class=menu_title>管理员</div>
-                <div class=menu_entry><a id=list_all_user href=#>用户</a></div>
+                <div class=menu_entry id=list_all_user>用户</div>
                 <div class=menu_entry>日志</div>
             </eq>
 			<div class=menu_title><a href=<?php echo U("User/unlogin"); ?>>退出</a></div>
