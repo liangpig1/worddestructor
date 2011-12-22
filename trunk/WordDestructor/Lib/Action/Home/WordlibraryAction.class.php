@@ -32,7 +32,7 @@ class WordlibraryAction extends Action
             $ret = $libraryDao->removeWordLibrary($libraryID);
             if ($ret) {
 				$this->errMsg = null;
-				echo "词单删除成功";
+				echo "词库删除成功";
 			} else {
 				$this->errMsg = "删除失败";
 				echo $this->errMsg;
