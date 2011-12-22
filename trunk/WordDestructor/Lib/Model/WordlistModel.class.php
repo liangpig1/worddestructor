@@ -5,6 +5,11 @@ class WordlistModel extends Model
     {
         return $this->where("id=".$listId)->find();
     }
+    
+    public function getListByName($name)
+    {
+        return $this->where("name='".$name."'")->find();
+    }
 
     public function getListsByUser($userId)
     {
