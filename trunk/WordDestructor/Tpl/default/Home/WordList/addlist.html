@@ -1,11 +1,14 @@
 	<div>
 		<h3>新增词单</h3>
-		<form id=addlist action="<?php echo U('Home-Wordlist/addList');?>" method=post enctype=multipart/form-data >
+		<form id=addlist action="<?php echo U('Home-Wordlist/addList');?>" method=post>
 			<div id=lname>
 				<label>词单名称</label><input type=text name=listName /><label class=hint></label>
 			</div>
+			<div id=wordnum>
+				<label>单词数量</label><input type=text name=wordsnumber /><label class=hint></label>
+			</div>
 			<div id=memconf>
-				<label>记忆偏好设置</label><input type=text name=memConf /><label class=hint></label>
+				<label>记忆偏好</label><input type=text name=memConf /><label class=hint></label>
 			</div>
 			<div id=libid>
 				<input type=hidden name=librID value={$libraryID} />
@@ -23,11 +26,39 @@ $("#lname input").blur(function(){
 			if(str == '1'){ $("#lname .hint").text("该此单名字已经存在");flag=false;}
 			else{ $("#lname .hint").text("该词单名可以使用");flag=true;}});}
 });
-$("#addlist").submit(function(){
+$("#wordnum input").blur(function(){
+	if($(this).val()=="" || isNaN($(this).val())){ $("#wordnum .hint").text("单词数量必须为数字");flag=false;}
+	else{
+		$("#wordnum .hint").text("");flag=true;
+	}
+});
+
+$("#submit button").click(function(){
+	
 	$("#lname input").blur();
+	$("#wordnum input").blur();
+	alert(flag);
 	if(!flag) {
 		$("#submit .hint").text("信息不符合要求");
 		return false;
-	}
+	}else{
+		/*$.post($("#addlist").attr("action"), function(str){
+			$("#repo").text(str);
+		});*/
+		$("#repo").load($("#addlist").attr('action'));
+		}
+	return false;
 });
+/*
+$("#addlist").submit(function(){
+	$("#lname input").blur();
+	$("#wordnum input").blur();
+	if(!flag) {
+		$("#submit .hint").text("信息不符合要求");
+		return false;
+	}else{
+		$("#repo").load($(this).attr('action'));
+		return false;
+	}
+});*/
 </script>
