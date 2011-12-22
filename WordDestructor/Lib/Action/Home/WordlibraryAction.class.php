@@ -1,8 +1,6 @@
 <?php
 class WordlibraryAction extends Action
 {
-	public static $errMsg;
-
 	public function show()
 	{
 		if (A("User")->islogin()) //TODO: Admin Authorize (xyt)
@@ -12,17 +10,12 @@ class WordlibraryAction extends Action
             $this->assign("libs", $liblist);
             $this->display("Home:Wordlibrary:show");
         } else {
-            $this->errMsg = "无权限操作";
+            $errMsg = "无权限操作";
             echo 0;
-			//$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			//$this->redirect("Home-Index/index", null, 1, $errMsg);
         }
 	}
     
-    public function getErrMsg()
-    {
-        echo $this->errMsg;
-    }
-
 	public function removeLibrary($libraryID)
 	{
         if (A("User")->islogin()) //TODO: Admin Authorize (xyt)
@@ -31,16 +24,14 @@ class WordlibraryAction extends Action
             $libraryDao = D("Wordlibrary");
             $ret = $libraryDao->removeWordLibrary($libraryID);
             if ($ret) {
-				$this->errMsg = null;
 				echo "词库删除成功";
 			} else {
-				$this->errMsg = "删除失败";
-				echo $this->errMsg;
+				echo "删除失败";
 			}
         } else {
-            $this->errMsg = "无权限操作";
+            $errMsg = "无权限操作";
             echo 0;
-			//$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			//$this->redirect("Home-Index/index", null, 1, $errMsg);
         }
 	}
 	
