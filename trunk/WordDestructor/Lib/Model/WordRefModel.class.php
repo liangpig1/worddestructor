@@ -11,7 +11,7 @@ class WordrefModel extends Model
             $data["wordId"] = $word["id"];
             $data["state"] = 0; //state == 0表示未学习
             $data["listId"] = 0; //listId == 0表示未在任何词单内
-            $data["libId"] = $word["libId"];
+            $data["libId"] = $word["libID"];
             $data["userId"] = $userId;
             $id = $this->add($data);
         }
