@@ -79,9 +79,7 @@
 		<div class="menu">
 			<div class=menu_title id=list_all_wordlist>词单</div>
 			<div class=menu_title>词典</div>
-			<div class=menu_title>设置</div>
-                <div class=menu_entry>更改密码</div>
-                <div class=menu_entry>记忆偏好</div>
+			<div class=menu_title id=change_password>更改密码</div>
             <eq name="authority" value="1">
 			<div class=menu_title>管理员</div>
                 <div class=menu_entry id=libButton>词库</div>
@@ -123,8 +121,14 @@ $("#libButton").click(function(){
 		});
 	});
 $("#list_all_wordlist").click(function(){
-		$("#repo").text("载入词库中...请稍候");
+		$("#repo").text("载入词单中...请稍候");
 		$.get("{:U('Home-Wordlist/listWordListsByUser');}", function(str){
+			$("#repo").html(str);
+		});
+});
+$("#change_password").click(function(){
+		$("#repo").text("载入中...请稍候");
+		$.get("{:U('User/showChangePwd');}", function(str){
 			$("#repo").html(str);
 		});
 });
