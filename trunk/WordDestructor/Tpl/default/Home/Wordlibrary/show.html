@@ -5,3 +5,16 @@
 	<br/>
 	<input type=submit value=上传词单 />
 </form>
+<h2>浏览词库</h2>
+<table>
+    <tr>
+    <td>词库名</td>
+    <td>操作</td>
+    </tr>
+<volist name="libs" id="vo" >
+    <tr>
+    <td>{$vo.name}</td>
+    <td><a href="<?php echo U('Home-Wordlibrary/removeLibrary/libraryId/'.$vo['id']);?>">删除</a></td>
+	</tr>
+</volist>
+</table>

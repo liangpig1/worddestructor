@@ -5,13 +5,36 @@ class WordlibraryAction extends Action
 
 	public function show()
 	{
-		$this->display("Home:Wordlibrary:show");
+		if (A("User")->islogin()) //TODO: Admin Authorize (xyt)
+        {
+            $libDao = D("Wordlibrary");
+            $liblist = $libDao->getAllLibraries();
+            $this->assign("libs", $liblist);
+            $this->display("Home:Wordlibrary:show");
+        } else {
+            $this->errMsg = "无权限操作";
+			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+        }
 	}
 
 	public function removeLibrary($libraryID)
 	{
-		$libraryDao = D("Wordlibrary");
-		$libraryDao->removeWordLibrary($libraryID);
+        if (A("User")->islogin()) //TODO: Admin Authorize (xyt)
+        {
+            if (!$libraryID) $libraryID = $_GET["libraryId"];
+            $libraryDao = D("Wordlibrary");
+            $ret = $libraryDao->removeWordLibrary($libraryID);
+            if ($ret) {
+				$this->errMsg = null;
+				$this->redirect("Home-Index/home", null, 1, "词单删除成功");
+			} else {
+				$this->errMsg = "删除失败";
+				$this->redirect("Home-Index/home", null, 1, $this->errMsg);
+			}
+        } else {
+            $this->errMsg = "无权限操作";
+			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+        }
 	}
 	
 	public function addLibrary($name)
@@ -59,10 +82,6 @@ class WordlibraryAction extends Action
 			$this->errMsg = "未登录";
 			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
 		}
-	}
-	
-	public function listAllLibrary()
-	{
 	}
 }
 ?>
