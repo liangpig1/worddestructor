@@ -34,11 +34,11 @@ $("#uname input").blur(function(){
 });
 $("#pwd input").blur(function(){
 	if ($(this).val().length < 6) { $("#pwd .hint").text("密码长度至少要6位");flag=false;}
-	else { $("#pwd .hint").text("");
+	else $("#pwd .hint").text("");
 });
 $("#pwd_re input").blur(function(){
 	if ($(this).val() != $("#pwd input").val()) { $("#pwd_re .hint").text("两次密码应该相同"); flag=false;}
-	else { $("#pwd_re .hint").text("");
+	else $("#pwd_re .hint").text("");
 });
 $("#register").submit(function(){
 	$("#uname input").blur();

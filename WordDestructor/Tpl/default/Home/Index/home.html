@@ -111,12 +111,21 @@
 
 <script type=text/javascript>
 $("#list_all_user").click(function(){
-		$("#repo").load("{:U('Admin-Admin/listAllUsers');}");
+		$("#repo").text("载入用户列表中...请稍候");
+		$.get("{:U('Admin-Admin/listAllUsers');}", function(str){
+			$("#repo").html(str);
+		});
 	});
 $("#libButton").click(function(){
-		$("#repo").load("{:U('Home-Wordlibrary/show');}");
+		$("#repo").text("载入词库中...请稍候");
+		$.get("{:U('Home-Wordlibrary/show');}", function(str){
+			$("#repo").html(str);
 		});
-    $("#list_all_wordlist").click(function(){
-        $("#repo").load("{:U('Home-Wordlist/listWordListsByUser');}");
-    });
+	});
+$("#list_all_wordlist").click(function(){
+		$("#repo").text("载入词库中...请稍候");
+		$.get("{:U('Home-Wordlist/listWordListsByUser');}", function(str){
+			$("#repo").html(str);
+		});
+});
 </script>

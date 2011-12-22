@@ -19,21 +19,28 @@ class AdminAction extends Action
 	{
 		if (!$userID) $userID = $_GET["userID"];
 		if (A("User")->islogin() && $this->authorize()) {
-			$userDao = D("User");
-			$user = $userDao->getUserByID($userID);
-			if ($user) {
-				$user['state'] = 1;
-				$userDao->updateUser($user);
-				$this->redirect("Home-index/home", null, 1, "用户冻结成功");
+			if ($userID == $_SESSION["uid"]) {
+				$this->errMsg = "用户无法冻结自己";
+				echo $this->errMsg;
 			}
 			else {
-				$this->errMsg = "找不到指定用户";
-				$this->redirect("Home-index/home", null, 1, $this->errMsg);
+				$userDao = D("User");
+				$user = $userDao->getUserByID($userID);
+				if ($user) {
+					$user['state'] = 1;
+					$userDao->updateUser($user);
+					echo "用户冻结成功";
+				}
+				else {
+					$this->errMsg = "找不到指定用户";
+					echo $this->errMsg;
+				}
 			}
 		}
 		else {
 			$this->errMsg = "无权限冻结用户";
-			$this->redirect("Home-index/home", null, 1, $this->errMsg);
+			echo 0;
+			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
 	}
 
@@ -41,21 +48,28 @@ class AdminAction extends Action
 	{
 		if (!$userID) $userID = $_GET["userID"];
 		if (A("User")->islogin() && $this->authorize()) {
-			$userDao = D("User");
-			$user = $userDao->getUserByID($userID);
-			if ($user) {
-				$user['state'] = 0;
-				$userDao->updateUser($user);
-				$this->redirect("Home-index/home", null, 1, "用户解冻成功");
+			if ($userID == $_SESSION["uid"]) {
+				$this->errMsg = "用户无法解冻自己";
+				echo $this->errMsg;
 			}
 			else {
-				$this->errMsg = "找不到指定用户";
-				$this->redirect("Home-index/home", null, 1, $this->errMsg);
+				$userDao = D("User");
+				$user = $userDao->getUserByID($userID);
+				if ($user) {
+					$user['state'] = 0;
+					$userDao->updateUser($user);
+					echo "用户解冻成功";
+				}
+				else {
+					$this->errMsg = "找不到指定用户";
+					echo $this->errMsg;
+				}
 			}
 		}
 		else {
 			$this->errMsg = "无权限解冻用户";
-			$this->redirect("Home-index/home", null, 1, $this->errMsg);
+			echo 0;
+			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
 	}
 
@@ -63,13 +77,21 @@ class AdminAction extends Action
 	{
 		if (!$userID) $userID = $_GET["userID"];
 		if (A("User")->islogin() && $this->authorize()) {
-			$userDao = D("User");
-			$userDao->removeUserByID($userID); //TODO connected with relational model
-			$this->redirect("Home-index/home", null, 1, "删除成功");
+			if ($userID == $_SESSION["uid"]) {
+				$this->errMsg = "用户无法删除自己";
+				echo $this->errMsg;
+			}
+			else {
+				$userDao = D("User");
+				$userDao->removeUserByID($userID); //TODO connected with relational model
+				echo "删除成功";
+				//$this->redirect("Home-index/home", null, 1, "删除成功");
+			}
 		}
 		else {
 			$this->errMsg = "无权限删除用户";
-			$this->redirect("Home-index/home", null, 1, $this->errMsg);
+			echo 0;
+			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
 	}
 
@@ -83,7 +105,8 @@ class AdminAction extends Action
 		}
 		else {
 			$this->errMsg = "无权限查询用户";
-			$this->redirect("Home-Index/home", null, 1, $this->errMsg);
+			echo 0;
+			//$this->redirect("Home-Index/home", null, 1, $this->errMsg);
 		}
 	}
 }
