@@ -25,6 +25,11 @@ class WordlistModel extends Model
     {
         return $this->where("id=".$listId)->delete();
     }
+    
+    public function removeWordListByUser($userId)
+    {
+        return $this->where("userId=".$userId)->delete();
+    }
 
     //new Empty WordList
     public function addWordList($listData)
