@@ -77,14 +77,13 @@ class WordrefModel extends Model
         return $this->where("listId=".$listId)->select();
     }
     
-    public function attachWordrefToList($userId, $wordId, $listId)
+    public function attachWordrefToList($wordrefId, $listId)
     {
-        $condition["userId"] = $userId;
-        $condition["wordId"] = $wordId;
+		$condition["id"] = $wordrefId;
         $info["listId"] = $listId;
         return $this->where($condition)->save($info);
     }
-    
+
     public function deattachWordrefById($id)
     {
         $info["listId"] = 0;

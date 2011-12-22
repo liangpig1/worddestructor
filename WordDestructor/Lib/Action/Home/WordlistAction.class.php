@@ -9,7 +9,7 @@ class WordlistAction extends Action
 	}
 	
 	public function addList($listName, $memConf,$wordnum, $libraryID)
-	{
+	{//TODO random seed
 		if (A("User")->islogin())
 		{
 			if (!$listName) $listName = $_POST["listName"];
@@ -19,17 +19,28 @@ class WordlistAction extends Action
 			$listDao = D("Wordlist");
 			$userDao = D("User");
 			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf);
-			$ret = $listDao->addWordList($listData);
-			if ($ret) {
+			$listID = $listDao->addWordList($listData);
+			if ($listID) {
 				$wordrefDao = D("Wordref");
 				$wordrefList = $wordrefDao->getWordrefsForStudy($_SESSION['uid'],$libraryID);
 				if ($wordrefList) {
 					if(count($wordrefList)<$wordnum) $wordnum = $wordrefList;
+					$len = count($wordrefList)-1;
 					for($i = 0 ; $i < $wordnum ;$i = $i + 1){
-						$wordref = $wordrefList[rand(0,count($wordrefList)-1)];
-						$wordrefDao->attachWordrefToList($_SESSION['uid'],$wordref["wordId"],$ret);
+						$x = rand(0,$len - $i);
+						$wordref = $wordrefList[$x];
+						$wordrefDao->attachWordrefToList($wordref['id'],$listID);
+						//swap the wordref to make sure no repeat
+						$t = $wordrefList[$x];
+						$wordrefList[$x] = $wordrefList[$len - $i];
+						$wordrefList[$len - $i] = $t;
 					}
-					echo $ret;
+					if ($wordrefDao->getError()) {
+						echo "单词添加到词单失败";
+					}
+					else {
+						echo $listID;
+					}
 				}
 				else echo "从词库中提取单词失败";
 			}
