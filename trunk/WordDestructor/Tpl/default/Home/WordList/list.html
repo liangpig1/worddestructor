@@ -16,10 +16,10 @@
 
 <script type=text/javascript>
 $("#add_new_list").click(function(){
-    $("#repo").load("{:U('Home-Wordlibrary/listAllLibrary');}");
+	$("#repo").load("{:U('Home-Wordlibrary/listAllLibrary');}");
 });
 $(".view_list").click(function(){
     $("#repo").load($(this).attr('href'));
     return false;
-});
+});	
 </script>

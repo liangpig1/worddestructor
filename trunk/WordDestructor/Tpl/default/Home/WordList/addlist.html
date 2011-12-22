@@ -18,15 +18,14 @@
 <script type=text/javascript>
 flag = true;
 $("#lname input").blur(function(){
-	alert("hihi");
 	if($(this).val()==""){ $("#lname .hint").text("词单名字不能为空");flag = false;}
 	else{ $.get("{:U('Home-Wordlist/isListExist/listname/');}"+$(this).val(),function(str){
 			if(str == '1'){ $("#lname .hint").text("该此单名字已经存在");flag=false;}
 			else{ $("#lname .hint").text("该词单名可以使用");flag=true;}});}
 });
 $("#addlist").submit(function(){
-	$("#lname input".blur();
-	if(!flag){
+	$("#lname input").blur();
+	if(!flag) {
 		$("#submit .hint").text("信息不符合要求");
 		return false;
 	}

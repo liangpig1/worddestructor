@@ -3,8 +3,15 @@
 <volist name="wordLibraries" id="vo">
 	<tr>
 	<td>{$vo.name}</td>
-	<td>{$vo['id']}</td>
 	<td><a class=selib href="<?php echo U('Home-Wordlist/addListByLibrary/libraryID/'.$vo['id']);?>">选择</a></td>
 	</tr>
 </volist>
 </table>
+<script type=text/javascript >
+	$(".selib").click(function(){
+		$.get($(this).attr('href'), function(str){
+			$("#repo").html(str);
+		});
+		return false;
+	});
+</script>
