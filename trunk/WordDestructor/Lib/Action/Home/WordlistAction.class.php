@@ -1,18 +1,26 @@
 <?php
 class WordlistAction extends Action
 {
+	public function addListByLibrary($libraryID)
+	{
+		$this->assign("libraryID",$libraryID);
+		$this->display("Home:WordList:addlist");
+	}
+	
 	public function addList($listName, $memConf)
 	{
 		if (A("User")->islogin())
 		{
 			if (!$listName) $listName = $_POST["listName"];
-			if (!$listConf) $listConf = $_POST["listConf"];
+			if (!$memConf) $memConf = $_POST["memConf"];
 			$listDao = D("WordList");
 			$userDao = D("User");
 
 			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf);
 			$ret = $listDao->addWordList($listData);
 			if ($ret) {
+				$WordRefDao = D("WordRef");
+				
 				$this->redirect("Home-Index/home", null, 1, "添加成功");
 			}
 			else {
@@ -98,14 +106,14 @@ class WordlistAction extends Action
             $ret = $wordrefDao->deattachWordRefById($wordrefId);
 			$errMsg = "";
             if ($ret) {
-				errMsg = "词条删除成功";
+				$errMsg = "词条删除成功";
 			} else {
-				errMsg = "删除错误";
+				$errMsg = "删除错误";
 			}
         } else {
-            errMsg = "未登录";
+            $errMsg = "未登录";
         }
-        $this->redirect("Home-Index/index", null, 1, errMsg);
+        $this->redirect("Home-Index/index", null, 1, $errMsg);
     }
     
 	public function listWordListsByUser()
@@ -120,6 +128,13 @@ class WordlistAction extends Action
 		else {
 			$this->redirect("Home-Index/index", null, 1, "未登录");
 		}
+	}
+	
+	public function isListExist($name){
+		if(!$name) $name = $_GET["listname"];
+		$listDao = D("List");
+		if($listDao ->getListByName($name)) echo 1;
+		else echo 0;
 	}
 }
 ?>
