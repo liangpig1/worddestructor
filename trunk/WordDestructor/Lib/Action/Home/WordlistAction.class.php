@@ -3,23 +3,32 @@ class WordlistAction extends Action
 {
 	public function addListByLibrary($libraryID)
 	{
+		if (!$libraryID) $libraryID = $_GET["libraryID"];
 		$this->assign("libraryID",$libraryID);
 		$this->display("Home:WordList:addlist");
 	}
 	
-	public function addList($listName, $memConf)
+	public function addList($listName, $memConf, $libraryID)
 	{
 		if (A("User")->islogin())
 		{
 			if (!$listName) $listName = $_POST["listName"];
 			if (!$memConf) $memConf = $_POST["memConf"];
+			if (!$libraryID) $libraryID = $_POST["librID"];
 			$listDao = D("WordList");
 			$userDao = D("User");
 
 			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf);
 			$ret = $listDao->addWordList($listData);
 			if ($ret) {
-				$WordRefDao = D("WordRef");
+				$wordRefDao = D("WordRef");
+				$wordRefList = $wordRefDao->getWordRefsForStudy($_SESSION['uid'],$libraryID);
+						
+				for($i = 0 ; $i < 30 ;$i = $i + 1){
+					$wordRef = $wordRefList[rand(0,count($wordRefList)-1)];
+					dump($wordRef);
+					$wordRefDao->attachWordRefToList($_SESSION['uid'],$wordRef["wordId"],$ret);
+				}
 				
 				$this->redirect("Home-Index/home", null, 1, "添加成功");
 			}
