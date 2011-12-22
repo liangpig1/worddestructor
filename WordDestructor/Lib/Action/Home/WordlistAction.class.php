@@ -91,12 +91,7 @@ class WordlistAction extends Action
         {
             if (!$listID) $listID = $_GET["listID"];
             $wordrefDao = D("WordRef");
-            //$wordrefs = $wordrefDao->getWordRefsByList($listID);
-            $wordrefs = $wordrefDao->select();
-            if ($wordrefs) {} else {
-                $this->errMsg = "法克";
-                $this->redirect("Home-Index/index", null, 1, $this->errMsg);
-            }
+            $wordrefs = $wordrefDao->getWordRefsByList($listID);
             $wordDao = D("Word");
             $words = Array();
             foreach ($wordrefs as $wordref)
@@ -109,6 +104,24 @@ class WordlistAction extends Action
             $this->errMsg = "未登录";
 			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
         }
+    }
+    
+    public function deattachWordref($wordrefId)
+    {
+        if (A("User")->islogin())
+        {
+            if (!$wordrefId) $wordrefId = $_GET["wordrefId"];
+            $wordrefDao = D("WordRef");
+            $ret = $wordrefDao->deattachWordRefById($wordrefId);
+            if ($ret) {
+				$this->errMsg = "词条删除成功";
+			} else {
+				$this->errMsg = "删除错误";
+			}
+        } else {
+            $this->errMsg = "未登录";
+        }
+        $this->redirect("Home-Index/index", null, 1, $this->errMsg);
     }
     
 	public function listWordListsByUser()

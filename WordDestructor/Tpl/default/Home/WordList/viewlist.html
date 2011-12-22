@@ -2,11 +2,13 @@
     <tr>
     <td>英文</td>
     <td>中文</td>
+    <td>操作</td>
     </tr>
 <volist name="words" id="vo" >
     <tr>
     <td>{$vo.eng}</td>
 	<td>{$vo.chn}</td>
+    <td><a href="<?php echo U('Home-Wordlist/deattachWordref/wordrefId/'.$vo['id']);?>">从词单中删除</a></td>
 	</tr>
 </volist>
 </table>
