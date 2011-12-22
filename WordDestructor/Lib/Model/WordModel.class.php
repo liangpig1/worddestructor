@@ -11,7 +11,7 @@ class WordModel extends Model
     
     public function removeWordsByLibId($libId)
     {
-        return $this->where("libId=".$libId)->delete();
+        return $this->where("libID=".$libId)->delete();
     }
     
     public function removeWordById($wordId)
@@ -21,7 +21,7 @@ class WordModel extends Model
     
     public function getWordsByLibId($libId)
     {
-        return $this->where("libId=".$libid)->select();
+        return $this->where("libID=".$libId)->select();
     }
     
     public function getWordById($wordId)

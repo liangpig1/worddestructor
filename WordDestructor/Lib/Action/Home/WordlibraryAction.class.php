@@ -67,12 +67,30 @@ class WordlibraryAction extends Action
 							break;
 						}
 					}
+					$wordRefDao = D("WordRef");
+					$wordRefDao->addWordRefsByLib($libID);
+					
 					$this->redirect("Home-Index/home", null, 1, "词库上传成功");
 				}
 			}
 		}
 		else {
 			$this->redirect("Home-Index/index", null, 1, "无权限");
+		}
+	}
+	
+	public function listAllLibrary()
+	{
+		if (A("User")->islogin())
+		{
+			$libraryDao = D("Wordlibrary");
+			$wordLibraries = $libraryDao->getAllLibraries();
+			$this->assign("wordLibraries", $wordLibraries);
+			$this->display("Home:Wordlibrary:select_library");
+		}
+		else {
+			$this->errMsg = "未登录";
+			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
 		}
 	}
 }

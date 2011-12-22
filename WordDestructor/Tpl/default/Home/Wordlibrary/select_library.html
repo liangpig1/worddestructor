@@ -1,0 +1,15 @@
+<h3>选择词库</h3>
+<table>
+<volist name="wordLibraries" id="vo">
+	<tr>
+	<td>{$vo.name}</td>
+	<td id=select_this_library>选择</td>
+	</tr>
+</volist>
+</table>
+
+<script type=text/javascript>
+$("#select_this_library").click(function(){
+		$("#repo").load("{:U('Home-Wordlist/addListByLibrary/'.$vo['id']);}");
+	});
+</script>
