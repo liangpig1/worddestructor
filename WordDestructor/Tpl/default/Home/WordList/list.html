@@ -1,15 +1,31 @@
+<h2><a id=add_new_list href=#>新增词单</a></h2>
+<h2>浏览词单</h2>
 <table>
     <tr>
     <td>词单名</td>
+    <td>词单大小</td>
+    <td>进度</td>
+    <td>下次复习时间</td>
     <td>操作</td>
-	<div id=add_new_list class="add_list_head" >新增词单</div>
     </tr>
 <volist name="wordLists" id="vo" >
     <tr>
 	<td>{$vo.name}</td>
-    <td><a href="<?php echo U('Home-Wordlist/removeList/listID/'.$vo['id']);?>">删除</a></td>
+    <td>{$vo.size}</td>
+    <td>{$vo.progress}</td>
+    <eq name="vo.test" value="1">
+        <td style="color:#FF0000">***现在***</td>
+    </eq>
+    <eq name="vo.test" value="0">
+        <td>{$vo.next}</td>
+    </eq>
+    <td><a class=del_list href="<?php echo U('Home-Wordlist/removeList/listID/'.$vo['id']);?>">删除</a></td>
     <td><a class=view_list href="<?php echo U('Home-Wordlist/viewList/listID/'.$vo['id']);?>">浏览</a></td>
-	<td><a href='{: U("Home-Wordlist/studylist/".$vo["id"]);}'>学习</a></td>
+	<td><a href='{: U("Home-Wordlist/studylist/".$vo["id"]);}'>
+        <eq name="vo.test" value="1">测试!!!</eq>
+        <eq name="vo.test" value="0">学习</eq>
+    </a></td>
+    <td><label class=hint></label></td>
 	</tr>
 </volist>
 </table>
@@ -20,6 +36,15 @@ $("#add_new_list").click(function(){
 });
 $(".view_list").click(function(){
     $("#repo").load($(this).attr('href'));
+    return false;
+});
+$(".del_list").click(function(){
+    hint = $(this).parent().next().next().next().children();
+    hint.text("删除中......");
+    $.get($(this).attr('href'), function(str){
+        hint.text(str);
+        $("#repo").load("{:U('Home-Wordlist/listWordListsByUser');}");
+    });
     return false;
 });	
 </script>

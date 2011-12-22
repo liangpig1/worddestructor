@@ -130,7 +130,27 @@ class WordlistAction extends Action
 		if (A("User")->islogin())
 		{
 			$listDao = D("Wordlist");
-			$wordLists = $listDao->getListsByUser($_SESSION["uid"]);
+			$lists = $listDao->getListsByUser($_SESSION["uid"]);
+            $wordLists = Array();
+            foreach ($lists as $item)
+            {
+                $out["name"] = $item["name"];
+                $wordrefDao = D("Wordref");
+                $listsel = $wordrefDao->getWordRefsByList($item["id"]);
+                $out["size"] = sizeof($listsel);
+                $memo = $item["memo"];
+                $out["progress"] = $item["progress"]."/".strlen($memo);
+                $next = $time["next"];
+                //$next = time();
+                $out["next"] = format_time($next);
+                if (time() > $next) {
+                    $out["test"] = true;
+                } else {
+                    $out["test"] = false;
+                }
+                $out["id"] = $item["id"];
+                array_push($wordLists, $out);
+            }
 			$this->assign("wordLists", $wordLists);
 			$this->display("Home:Wordlist:list");
 		}
