@@ -26,7 +26,6 @@ class WordlistAction extends Action
 						
 				for($i = 0 ; $i < 30 ;$i = $i + 1){
 					$wordRef = $wordRefList[rand(0,count($wordRefList)-1)];
-					dump($wordRef);
 					$wordRefDao->attachWordRefToList($_SESSION['uid'],$wordRef["wordId"],$ret);
 				}
 				
@@ -142,8 +141,8 @@ class WordlistAction extends Action
 	
 	public function isListExist($name){
 		if(!$name) $name = $_GET["listname"];
-		$listDao = D("List");
-		if($listDao ->getListByName($name)) echo 1;
+		$listDao = D("Wordlist");
+		if($listDao->getListByName($name)) echo 1;
 		else echo 0;
 	}
 }
