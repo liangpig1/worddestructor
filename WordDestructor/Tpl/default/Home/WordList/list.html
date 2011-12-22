@@ -8,7 +8,7 @@
     <tr>
 	<td>{$vo.name}</td>
     <td><a href="<?php echo U('Home-Wordlist/removeList/listID/'.$vo['id']);?>">删除</a></td>
-    <td><a href="<?php echo U('Home-Wordlist/viewList/listID/'.$vo['id']);?>">浏览</a></td>
+    <td><a class=view_list href="<?php echo U('Home-Wordlist/viewList/listID/'.$vo['id']);?>">浏览</a></td>
 	<td><a href='{: U("Home-Wordlist/studylist/".$vo["id"]);}'>学习</a></td>
 	</tr>
 </volist>
@@ -16,6 +16,10 @@
 
 <script type=text/javascript>
 $("#add_new_list").click(function(){
-		$("#repo").load("{:U('Home-Wordlibrary/listAllLibrary');}");
-	});
+    $("#repo").load("{:U('Home-Wordlibrary/listAllLibrary');}");
+});
+$(".view_list").click(function(){
+    $("#repo").load($(this).attr('href'));
+    return false;
+});
 </script>
