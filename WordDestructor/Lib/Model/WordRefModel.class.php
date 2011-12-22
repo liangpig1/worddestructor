@@ -1,8 +1,8 @@
 <?php
 class WordrefModel extends Model
 {
-    //生成新用户$userId的所有wordRef
-    public function addWordRefsByUser($userId)
+    //生成新用户$userId的所有wordref
+    public function addWordrefsByUser($userId)
     {
         $wordDao = D("Word");
         $list = $wordDao->select();
@@ -18,8 +18,8 @@ class WordrefModel extends Model
         return $id;
     }
     
-    //对新词库libId，对所有用户生成相对应的所有wordRef
-    public function addWordRefsByLib($libId)
+    //对新词库libId，对所有用户生成相对应的所有wordref
+    public function addWordrefsByLib($libId)
     {
         $wordDao = D("Word");
         $wordlist = $wordDao->getWordsByLibId($libId);
@@ -40,7 +40,7 @@ class WordrefModel extends Model
         return $id;
     }
     
-    public function getWordRefsForStudy($userId, $libId)
+    public function getWordrefsForStudy($userId, $libId)
     {
         $condition["userId"] = $userId;
         $condition["libId"] = $libId;
@@ -48,32 +48,32 @@ class WordrefModel extends Model
         return $this->where($condition)->select();
     }
     
-    public function getWordRefsByUser($userId)
+    public function getWordrefsByUser($userId)
     {
         return $this->where("userId=".$userId)->select();
     }
     
-    public function removeWordRefsByUser($userId)
+    public function removeWordrefsByUser($userId)
     {
         return $this->where("userId=".$userId)->delete();
     }
     
-    public function getWordRefsByLib($libId)
+    public function getWordrefsByLib($libId)
     {
         return $this->where("libId=".$libId)->select();
     }
     
-    public function removeWordRefsByLib($libId)
+    public function removeWordrefsByLib($libId)
     {
         return $this->where("libId=".$libId)->delete();
     }
     
-    public function getWordRefsByList($listId)
+    public function getWordrefsByList($listId)
     {
         return $this->where("listId=".$listId)->select();
     }
     
-    public function attachWordRefToList($userId, $wordId, $listId)
+    public function attachWordrefToList($userId, $wordId, $listId)
     {
         $condition["userId"] = $userId;
         $condition["wordId"] = $wordId;
@@ -81,19 +81,19 @@ class WordrefModel extends Model
         return $this->where($condition)->save($info);
     }
     
-    public function deattachWordRefById($id)
+    public function deattachWordrefById($id)
     {
         $info["listId"] = 0;
         return $this->where("id=".$id)->save($info);
     }
     
-    public function deattachWordRefsByList($listId)
+    public function deattachWordrefsByList($listId)
     {
         $info["listId"] = 0;
         return $this->where("listId=".$listId)->save($info);
     }
     
-    public function getWordRefsByState($state)
+    public function getWordrefsByState($state)
     {
         return $this->where("state=".$state)->select();
     }
@@ -104,12 +104,12 @@ class WordrefModel extends Model
         return $this->where("listId=".$listId)->save($info);
     }
     
-    public function getWordRefById($id)
+    public function getWordrefById($id)
     {
         return $this->where("id=".$id)->find();
     }
     
-    public function getWordRefsByWord($wordId)
+    public function getWordrefsByWord($wordId)
     {
         return $this->where("wordId=".$wordId)->select();
     }
