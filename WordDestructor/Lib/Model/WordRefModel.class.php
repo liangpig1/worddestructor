@@ -40,6 +40,14 @@ class WordrefModel extends Model
         return $id;
     }
     
+    public function getWordRefsForStudy($userId, $libId)
+    {
+        $condition["userId"] = $userId;
+        $condition["libId"] = $libId;
+        $condition["listId"] = 0;
+        return $this->where($condition)->select();
+    }
+    
     public function getWordRefsByUser($userId)
     {
         return $this->where("userId=".$userId)->select();
