@@ -8,6 +8,10 @@ class WordModel extends Model
         $data["libID"] = $libID;
         return $this->add($data);
     }
+	public function addWordList($wordCollection)
+	{
+		return $this->addAll($wordCollection);
+	}
     
     public function removeWordsByLibId($libId)
     {

@@ -19,25 +19,29 @@ class WordrefModel extends Model
     }
     
     //对新词库libId，对所有用户生成相对应的所有wordref
-    public function addWordrefsByLib($libId)
+    public function addWordrefsByLib($libID)
     {
-        $wordDao = D("Word");
-        $wordlist = $wordDao->getWordsByLibId($libId);
+		$wordDao = D("Word");
         $userDao = D("User");
+
         $userlist = $userDao->getAllUsers();
-        foreach ($wordlist as $word)
+		$listOfWords = $wordDao->getWordsByLibId($libID);
+
+        foreach ($listOfWords as $word)
         {
-            $data["state"] = 0;
-            $data["listId"] = 0;
-            $data["libId"] = $libId;
             foreach ($userlist as $user)
             {
-                $data["wordId"] = $word["id"];
-                $data["userId"] = $user["id"];
-                $id = $this->add($data);
+				$data = array(
+					"state"	=>	0, 
+					"listId"=>	0, 
+					"libId"	=>	$libID, 
+					"wordId"=>	$word["id"], 
+					"userId"=>	$user["id"]
+				);
+				$wordrefCollection[] = $data;
             }
         }
-        return $id;
+		return $this->addAll($wordrefCollection);
     }
     
     public function getWordrefsForStudy($userId, $libId)

@@ -59,22 +59,15 @@ class WordlibraryAction extends Action
 			else {
 				$libID = $libraryDao->addWordLibrary($libInfo);
 				if ($libraryDao->getError())
-				{
 					$this->redirect("Home-Index/home", null, 1, "添加失败");
-				}
 				else 
 				{
-					foreach($listOfWords as $word)
-					{
-						$wordDao->addWord($word["eng"], $word["chn"], $libID);
-						if ($wordDao->getError()) {
-							break;
-						}
-					}
 					$wordrefDao = D("Wordref");
-					$wordrefDao->addWordrefsByLib($libID);
-					
-					$this->redirect("Home-Index/home", null, 1, "词库上传成功");
+					foreach($listOfWords as &$word) $word["libID"] = $libID;
+					if (!$wordDao->addWordList($listOfWords)) $this->redirect("Home-Index/home", null, 1, "单词添加失败");
+					$ret = $wordrefDao->addWordrefsByLib($libID);
+					if ($ret) $this->redirect("Home-Index/home", null, 1, "词库上传成功");
+					else $this->redirect("Home-Index/home", null, 1, "单词关联建立失败");
 				}
 			}
 		}
