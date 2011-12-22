@@ -9,12 +9,48 @@
 	<hr/>
 	<div>
 		<p>Register</p>
-		<form method=post action=__APP__/User/register>
-			<label>name</label><input type=text name=username value='' />
-			<label>password</label><input type=password name=pwd value='' />
-			<input type=submit value=注册 />
+		<form id=register method=post action=__APP__/User/register>
+			<div id=uname>
+				<label>用户名</label><input type=text name=username /><label class=hint></label>
+			</div>
+			<div id=pwd>
+				<label>密码</label><input type=password name=pwd /><label class=hint></label>
+			</div>
+			<div id=pwd_re>
+				<label>重复密码</label><input type=password /><label class=hint></label>
+			</div>
+			<div id=submit>
+				<button>注册</button><label class=hint></label>
+			</div>
 		</form>
 	</div>
+<script type=text/javascript>
+flag = true;
+$("#uname input").blur(function(){
+	if ($(this).val()=="") { $("#uname .hint").text("名字不能是空哦～"); flag=false; }
+	else { $.get("{:U('Home-User/isUserExist/username/');}"+$(this).val(),function(str){
+			if (str == '1') { $("#uname .hint").text("换个名字吧～"); flag=false; }
+			else { $("#uname .hint").text("该用户名可以使用"); flag=true;}});}
+});
+$("#pwd input").blur(function(){
+	if ($(this).val().length < 6) { $("#pwd .hint").text("密码长度至少要6位");flag=false;}
+	else { $("#pwd .hint").text("");
+});
+$("#pwd_re input").blur(function(){
+	if ($(this).val() != $("#pwd input").val()) { $("#pwd_re .hint").text("两次密码应该相同"); flag=false;}
+	else { $("#pwd_re .hint").text("");
+});
+$("#register").submit(function(){
+	$("#uname input").blur();
+	$("#pwd input").blur();
+	$("#pwd_re input").blur();
+	if (!flag) {
+		$("#submit .hint").text("信息不符合要求");
+		return false;
+	}
+});
+</script>
+
 	<hr/>
 	<div>
 		<h1>Look UP WORDS!!!</h1>
