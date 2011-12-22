@@ -8,28 +8,30 @@ class WordlistAction extends Action
 		$this->display("Home:WordList:addlist");
 	}
 	
-	public function addList($listName, $memConf, $libraryID)
+	public function addList($listName, $memConf,$wordnum, $libraryID)
 	{
 		if (A("User")->islogin())
 		{
 			if (!$listName) $listName = $_POST["listName"];
 			if (!$memConf) $memConf = $_POST["memConf"];
+			if (!$wordnum) $wordnum = $_POST["wordsnumber"];
 			if (!$libraryID) $libraryID = $_POST["librID"];
 			$listDao = D("WordList");
 			$userDao = D("User");
-
+			dump($_POST);
 			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf);
 			$ret = $listDao->addWordList($listData);
 			if ($ret) {
 				$wordRefDao = D("WordRef");
 				$wordRefList = $wordRefDao->getWordRefsForStudy($_SESSION['uid'],$libraryID);
-						
-				for($i = 0 ; $i < 30 ;$i = $i + 1){
+				if(count($wordRefList) < $wordnum ) 
+					$wordnum = $wordRefList;
+				for($i = 0 ; $i < $wordnum ;$i = $i + 1){
 					$wordRef = $wordRefList[rand(0,count($wordRefList)-1)];
 					$wordRefDao->attachWordRefToList($_SESSION['uid'],$wordRef["wordId"],$ret);
 				}
 				
-				$this->redirect("Home-Index/home", null, 1, "添加成功");
+				$this->viewList($ret);
 			}
 			else {
 				$this->redirect("Home-Index/home", null, 1, "添加失败");
