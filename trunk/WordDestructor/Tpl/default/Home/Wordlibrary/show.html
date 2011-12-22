@@ -4,7 +4,9 @@
 	<label>词库文件</label><input type="file" name="fileBuf" />
 	<br/>
 	<input type=submit value=上传词单 />
+    <label class=uploadhint></label>
 </form>
+
 <h2>浏览词库</h2>
 <table>
     <tr>
@@ -14,7 +16,20 @@
 <volist name="libs" id="vo" >
     <tr>
     <td>{$vo.name}</td>
-    <td><a href="<?php echo U('Home-Wordlibrary/removeLibrary/libraryId/'.$vo['id']);?>">删除</a></td>
+    <td><a class=udellib href="<?php echo U('Home-Wordlibrary/removeLibrary/libraryId/'.$vo['id']);?>">删除</a></td>
+    <td><label class=hint></label></td>
 	</tr>
 </volist>
 </table>
+
+<script type=text/javascript>
+	$(".udellib").click(function(){
+		hint = $(this).parent().next();
+		hint.text("删除中......");
+		$.get($(this).attr('href'), function(str){
+			hint.text(str);
+			$("#repo").load("{:U('Home-Wordlibrary/show');}");
+		});
+		return false;
+	});
+</script>
