@@ -6,15 +6,17 @@ class WordrefModel extends Model
     {
         $wordDao = D("Word");
         $list = $wordDao->select();
+        $datas = Array();
         foreach ($list as $word)
         {
             $data["wordId"] = $word["id"];
             $data["state"] = 0; //state == 0表示未学习
             $data["listId"] = 0; //listId == 0表示未在任何词单内
-            $data["libId"] = $word["libId"];
+            $data["libID"] = $word["libId"];
             $data["userId"] = $userId;
-            $id = $this->add($data);
+            array_push($datas, $data);
         }
+        $this->addAll($datas);
         return $id;
     }
     
