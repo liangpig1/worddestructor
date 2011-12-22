@@ -47,7 +47,7 @@ $("#submit button").click(function(){
 				id = parseInt(str);
 				$("#repo").load("{:U('Home-Wordlist/viewList/listID/');}"+id);
 			}
-			else $("#repo").text(str);
+			else $("#repo").html(str);
 		});
 	}
 	return false;
