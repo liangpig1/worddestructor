@@ -73,6 +73,12 @@ class WordrefModel extends Model
         return $this->where($condition)->save($info);
     }
     
+    public function deattachWordRefById($id)
+    {
+        $info["listId"] = 0;
+        return $this->where("id=".$id)->save($info);
+    }
+    
     public function deattachWordRefsByList($listId)
     {
         $info["listId"] = 0;
