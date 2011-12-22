@@ -15,11 +15,13 @@ class UserAction extends Action
 					$this->redirect("Home-Index/index", null, 1, "已存在该用户名");
 				}
 				else {
-					$userDao->insertUser($regInfo);
+					$uid = $userDao->insertUser($regInfo);
 					if ($userDao->getError()) {
 						$this->redirect("Home-Index/home", null, 1, "添加用户失败");
 					}
 					else {
+                        $wordrefDao = D("Wordref");
+                        $wordrefDao->addWordRefsByUser($uid);
 						echo "注册成功.正在登录中...<br/>";
 						$this->login($regInfo);
 					}
@@ -95,8 +97,7 @@ class UserAction extends Action
             $this->display(":user:changepwd");
         }
 		else {
-			$this->errMsg = "未登录，无法修改密码";
-			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			$this->redirect("Home-Index/index", null, 1, "未登录，无法修改密码");
 		}
     }
 
