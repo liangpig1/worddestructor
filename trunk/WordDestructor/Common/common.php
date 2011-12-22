@@ -29,4 +29,19 @@ function fileParse($buffer)
 	return $wordList;
 }
 
+function format_time($time, $mode=0) {
+	date_default_timezone_set ( "ASIA/SHANGHAI" ); 
+	if ($mode)
+	{
+		$today = date("Y-m-d", time());
+		$date = date("Y-m-d", $time);
+		if ($date != $today) return $date; 
+			else return date("H:i", $time);
+	}
+	else
+	{
+		return date("Y-m-d H:i", $time);
+	}
+}
+
 ?>
