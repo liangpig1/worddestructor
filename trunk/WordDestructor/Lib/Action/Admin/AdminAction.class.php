@@ -84,6 +84,10 @@ class AdminAction extends Action
 			else {
 				$userDao = D("User");
 				$userDao->removeUserByID($userID); //TODO connected with relational model
+                $wordrefDao = D("Wordref");
+                $wordrefDao->removeWordRefsByUser($userID);
+                $wordlistDao = D("Wordlist");
+                $wordlistDao->removeWordListByUser($userID);
 				echo "删除成功";
 				//$this->redirect("Home-index/home", null, 1, "删除成功");
 			}
