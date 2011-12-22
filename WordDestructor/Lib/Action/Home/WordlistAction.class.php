@@ -19,7 +19,7 @@ class WordlistAction extends Action
 			if (!$libraryID) $libraryID = $_POST["librID"];
 			$listDao = D("Wordlist");
 			$userDao = D("User");
-			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf);
+			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf, "progress"=>0, "next"=>time());
 			$listID = $listDao->addWordList($listData);
 			if ($listID) {
 				$wordrefDao = D("Wordref");
@@ -28,6 +28,9 @@ class WordlistAction extends Action
 					if(count($wordrefList)<$wordnum) $wordnum = $wordrefList;
 					$len = count($wordrefList)-1;
 					for($i = 0 ; $i < $wordnum ;$i = $i + 1){
+                        if ($len - $i  <= 0) {
+                            break;
+                        }
 						$x = rand(0,$len - $i);
 						$wordref = $wordrefList[$x];
 						$wordrefDao->attachWordrefToList($wordref['id'],$listID);
@@ -153,13 +156,17 @@ class WordlistAction extends Action
                 $out["size"] = sizeof($listsel);
                 $memo = $item["memo"];
                 $out["progress"] = $item["progress"]."/".strlen($memo);
-                $next = $time["next"];
-                //$next = time();
+                $next = $item["next"];
                 $out["next"] = format_time($next);
                 if (time() > $next) {
                     $out["test"] = true;
                 } else {
                     $out["test"] = false;
+                }
+                if ($item["progress"] > strlen($memo)) {
+                    $out["done"] = true;
+                } else {
+                    $out["done"] = false;
                 }
                 $out["id"] = $item["id"];
                 array_push($wordLists, $out);
