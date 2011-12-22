@@ -37,28 +37,20 @@ $("#submit button").click(function(){
 	
 	$("#lname input").blur();
 	$("#wordnum input").blur();
-	alert(flag);
 	if(!flag) {
 		$("#submit .hint").text("信息不符合要求");
 		return false;
 	}else{
-		/*$.post($("#addlist").attr("action"), function(str){
-			$("#repo").text(str);
-		});*/
-		$("#repo").load($("#addlist").attr('action'));
-		}
+	$.post($("#addlist").attr("action"), $("#addlist").serialize(), 
+		function(str){
+			if (!isNaN(parseInt(str))) {
+				id = parseInt(str);
+				$("#repo").load("{:U('Home-Wordlist/viewList/listID/');}"+id);
+			}
+			else $("#repo").text(str);
+		});
+	}
 	return false;
 });
-/*
-$("#addlist").submit(function(){
-	$("#lname input").blur();
-	$("#wordnum input").blur();
-	if(!flag) {
-		$("#submit .hint").text("信息不符合要求");
-		return false;
-	}else{
-		$("#repo").load($(this).attr('action'));
-		return false;
-	}
-});*/
+
 </script>

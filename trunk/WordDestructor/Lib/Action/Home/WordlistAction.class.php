@@ -16,28 +16,27 @@ class WordlistAction extends Action
 			if (!$memConf) $memConf = $_POST["memConf"];
 			if (!$wordnum) $wordnum = $_POST["wordsnumber"];
 			if (!$libraryID) $libraryID = $_POST["librID"];
-			$listDao = D("WordList");
+			$listDao = D("Wordlist");
 			$userDao = D("User");
-			dump($_POST);
 			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf);
 			$ret = $listDao->addWordList($listData);
 			if ($ret) {
-				$wordRefDao = D("WordRef");
-				$wordRefList = $wordRefDao->getWordRefsForStudy($_SESSION['uid'],$libraryID);
-				if(count($wordRefList) < $wordnum ) 
-					$wordnum = $wordRefList;
-				for($i = 0 ; $i < $wordnum ;$i = $i + 1){
-					$wordRef = $wordRefList[rand(0,count($wordRefList)-1)];
-					$wordRefDao->attachWordRefToList($_SESSION['uid'],$wordRef["wordId"],$ret);
+				$wordrefDao = D("Wordref");
+				$wordrefList = $wordrefDao->getWordrefsForStudy($_SESSION['uid'],$libraryID);
+				if ($wordrefList) {
+					if(count($wordrefList)<$wordnum) $wordnum = $wordrefList;
+					for($i = 0 ; $i < $wordnum ;$i = $i + 1){
+						$wordref = $wordrefList[rand(0,count($wordrefList)-1)];
+						$wordrefDao->attachWordrefToList($_SESSION['uid'],$wordref["wordId"],$ret);
+					}
+					echo $ret;
 				}
-				
-				$this->viewList($ret);
+				else echo "从词库中提取单词失败";
 			}
-			else {
-				$this->redirect("Home-Index/home", null, 1, "添加失败");
-			}
+			else echo "添加失败";
 		}
 		else {
+			echo "未登录";
 			$this->redirect("Home-Index/index", null, 1, "未登录");
 		}
 	}
@@ -47,8 +46,8 @@ class WordlistAction extends Action
 		if (A("User")->islogin())
 		{
             $userId = $_SESSION["uid"];
-            $wordrefDao = D("WordRef");
-            $ret = $wordrefDao->attachWordRefToList($userId, $wordId, $listId);
+            $wordrefDao = D("Wordref");
+            $ret = $wordrefDao->attachWordrefToList($userId, $wordId, $listId);
 		}
 		else {
         	$this->redirect("Home-Index/home", null, 1, "未登录");
@@ -77,8 +76,8 @@ class WordlistAction extends Action
 		if (A("User")->islogin())
 		{
 			$userDao = D("User");
-			$wordRefDao = D("Wordref");
-			$wordsInList = $wordRefDao->getWordsRefsByLib($listID);
+			$wordrefDao = D("Wordref");
+			$wordsInList = $wordrefDao->getWordsrefsByLib($listID);
 			$this->assign("wlist", $wordsInList);
 			$this->display("Home-Wordlist/studyList");
 		}
@@ -92,8 +91,8 @@ class WordlistAction extends Action
         if (A("User")->islogin())
         {
             if (!$listID) $listID = $_GET["listID"];
-            $wordrefDao = D("WordRef");
-            $wordrefs = $wordrefDao->getWordRefsByList($listID);
+            $wordrefDao = D("Wordref");
+            $wordrefs = $wordrefDao->getWordrefsByList($listID);
             $wordDao = D("Word");
             $words = Array();
             foreach ($wordrefs as $wordref)
@@ -113,8 +112,8 @@ class WordlistAction extends Action
         if (A("User")->islogin())
         {
             if (!$wordrefId) $wordrefId = $_GET["wordrefId"];
-            $wordrefDao = D("WordRef");
-            $ret = $wordrefDao->deattachWordRefById($wordrefId);
+            $wordrefDao = D("Wordref");
+            $ret = $wordrefDao->deattachWordrefById($wordrefId);
 			$errMsg = "";
             if ($ret) {
 				$errMsg = "词条删除成功";
@@ -138,7 +137,7 @@ class WordlistAction extends Action
             {
                 $out["name"] = $item["name"];
                 $wordrefDao = D("Wordref");
-                $listsel = $wordrefDao->getWordRefsByList($item["id"]);
+                $listsel = $wordrefDao->getWordrefsByList($item["id"]);
                 $out["size"] = sizeof($listsel);
                 $memo = $item["memo"];
                 $out["progress"] = $item["progress"]."/".strlen($memo);
