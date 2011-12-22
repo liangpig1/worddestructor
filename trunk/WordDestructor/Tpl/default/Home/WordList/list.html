@@ -2,6 +2,7 @@
     <tr>
     <td>词单名</td>
     <td>操作</td>
+	<div id=add_new_list class="add_list_head" >新增词单</div>
     </tr>
 <volist name="wordLists" id="vo" >
     <tr>
@@ -12,3 +13,9 @@
 	</tr>
 </volist>
 </table>
+
+<script type=text/javascript>
+$("#add_new_list").click(function(){
+		$("#repo").load("{:U('Home-Wordlibrary/listAllLibrary');}");
+	});
+</script>

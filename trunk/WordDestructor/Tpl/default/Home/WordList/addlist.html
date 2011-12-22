@@ -1,0 +1,31 @@
+	<div>
+		<h3>新增词单</h3>
+		<form id=addlist action="<?php echo U('Home-Wordlist/addList');?>" method=post enctype=multipart/form-data >
+			<div id=lname>
+				<label>词单名称</label><input type=text name=listName /><label class=hint></label>
+			</div>
+			<div id=memconf>
+				<label>记忆偏好设置</label><input type=text name=memConf /><label class=hint></label>
+			</div>
+			<div id=submit>
+				<button>创建</button><label class=hint></label>
+			</div>
+		</form>
+	</div>
+<script type=text/javascript>
+flag = true;
+$("#lname input").blur(function(){
+	alert("hihi");
+	if($(this).val()==""){ $("#lname .hint").text("词单名字不能为空");flag = false;}
+	else{ $.get("{:U('Home-Wordlist/isListExist/listname/');}"+$(this).val(),function(str){
+			if(str == '1'){ $("#lname .hint").text("该此单名字已经存在");flag=false;}
+			else{ $("#lname .hint").text("该词单名可以使用");flag=true;}});}
+});
+$("#addlist").submit(function(){
+	$("#lname input".blur();
+	if(!flag){
+		$("#submit .hint").text("信息不符合要求");
+		return false;
+	}
+});
+</script>
