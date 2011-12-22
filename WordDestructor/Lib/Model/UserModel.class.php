@@ -23,6 +23,7 @@ class UserModel extends Model
     
     public function insertUser($info)
     {
+		$info["pwd"] = md5($info["pwd"]);
         return $this->add($info);
     }
     
