@@ -62,18 +62,43 @@ class UserAction extends Action
 		}
 	}
 
-	public function changePwd($pwd)
+	public function changePwd()
 	{
 		if ($this->islogin())
 		{
 			$pwd = $_POST["pwd"];
-			$udata = array("id"=>$_SESSION["uid"], "pwd"=>$pwd);
-			$this->updateUser($udata);
+            $repeatpwd = $_POST["repeatpwd"];
+            if ($pwd != $repeatpwd) {
+				$this->redirect("Home-Index/home", null, 1, "两次密码输入不一样");
+            } else if (strlen($pwd) < 6) {
+                $this->redirect("Home-Index/home", null, 1, "密码过短哦亲~");
+            } else {
+                $udata = array("id"=>$_SESSION["uid"], "pwd"=>md5($pwd));
+                $userDao = D("User");
+                $ret = $userDao->updateUser($udata);
+                if ($ret) {
+                    $this->redirect("Home-Index/home", null, 1, "修改成功");
+                } else {
+                    $this->redirect("Home-Index/home", null, 1, "修改失败");
+                }
+            }
 		}
 		else {
 			$this->redirect("Home-Index/index", null, 1, "未登录，无法修改密码");
 		}
 	}
+    
+    public function showChangePwd()
+    {
+        if ($this->islogin())
+		{
+            $this->display(":user:changepwd");
+        }
+		else {
+			$this->errMsg = "未登录，无法修改密码";
+			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+		}
+    }
 
 	public function unlogin()
 	{
