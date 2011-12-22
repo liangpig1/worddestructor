@@ -85,7 +85,7 @@ class AdminAction extends Action
 				$userDao = D("User");
 				$userDao->removeUserByID($userID); //TODO connected with relational model
                 $wordrefDao = D("Wordref");
-                $wordrefDao->removeWordRefsByUser($userID);
+                $wordrefDao->removeWordrefsByUser($userID);
                 $wordlistDao = D("Wordlist");
                 $wordlistDao->removeWordListByUser($userID);
 				echo "删除成功";

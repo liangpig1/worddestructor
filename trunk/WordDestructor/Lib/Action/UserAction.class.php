@@ -21,7 +21,7 @@ class UserAction extends Action
 					}
 					else {
                         $wordrefDao = D("Wordref");
-                        $wordrefDao->addWordRefsByUser($uid);
+                        $wordrefDao->addWordrefsByUser($uid);
 						echo "注册成功.正在登录中...<br/>";
 						$this->login($regInfo);
 					}
