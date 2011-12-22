@@ -99,7 +99,7 @@ class WordlistAction extends Action
                 array_push($words, $wordDao->getWordById($wordref["wordId"]));
             }
             $this->assign("words", $words);
-            $this->assign("listID", $listID);
+			$this->assign("listID", $listID);
             $this->display("Home:Wordlist:viewlist");
         } else {
 			$this->redirect("Home-Index/index", null, 1, "未登录");
