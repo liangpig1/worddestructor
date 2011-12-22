@@ -1,8 +1,6 @@
 <?php
 class IndexAction extends Action
 {
-	public static $errMsg;
-
     public function index()
     {
 		$this->assign("content", "Home:Index:index");
@@ -19,8 +17,7 @@ class IndexAction extends Action
 			$this->display("Home:Public:base");
 		}
 		else {
-			$this->errMsg = "未登录";
-			$this->redirect("Home-Index/index", 1, null, $this->errMsg);
+			$this->redirect("Home-Index/index", 1, null, "未登录");
 		}
 	}
 }

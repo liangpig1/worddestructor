@@ -1,8 +1,6 @@
 <?php
 class WordlistAction extends Action
 {
-	public static $errMsg;
-
 	public function addList($listName, $memConf)
 	{
 		if (A("User")->islogin())
@@ -15,17 +13,14 @@ class WordlistAction extends Action
 			$listData = array("name"=>$listName, "userID"=>$_SESSION["uid"], "memo"=>$memConf);
 			$ret = $listDao->addWordList($listData);
 			if ($ret) {
-				$this->errMsg = null;
-				$this->redirect("Home-Index/home", null, 1, $this->errMsg);
+				$this->redirect("Home-Index/home", null, 1, "添加成功");
 			}
 			else {
-				$this->errMsg = "添加失败";
-				$this->redirect("Home-Index/home", null, 1, $this->errMsg);
+				$this->redirect("Home-Index/home", null, 1, "添加失败");
 			}
 		}
 		else {
-			$this->errMsg = "未登录";
-			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			$this->redirect("Home-Index/index", null, 1, "未登录");
 		}
 	}
 
@@ -36,16 +31,10 @@ class WordlistAction extends Action
             $userId = $_SESSION["uid"];
             $wordrefDao = D("WordRef");
             $ret = $wordrefDao->attachWordRefToList($userId, $wordId, $listId);
-            if ($ret) {
-                $this->errMsg = null;
-            } else {
-                $this->errMsg = "添加失败";
-            }
 		}
 		else {
-			$this->errMsg = "未登录";
+        	$this->redirect("Home-Index/home", null, 1, "未登录");
 		}
-        $this->redirect("Home-Index/home", null, 1, $this->errMsg);
 	}
 
 	public function removeList($listID)
@@ -56,15 +45,12 @@ class WordlistAction extends Action
 			$listDao = D("Wordlist");
 			$ret = $listDao->removeWordList($listID);
 			if ($ret) {
-				$this->errMsg = null;
 				$this->redirect("Home-Index/home", null, 1, "词单删除成功");
 			} else {
-				$this->errMsg = "指定词单未找到";
-				$this->redirect("Home-Index/home", null, 1, $this->errMsg);
+				$this->redirect("Home-Index/home", null, 1, "指定词单未找到");
 			}
 		} else {
-			$this->errMsg = "未登录";
-			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			$this->redirect("Home-Index/index", null, 1,"未登录");
 		}
 	}
 
@@ -73,18 +59,16 @@ class WordlistAction extends Action
 		if (A("User")->islogin())
 		{
 			$userDao = D("User");
-			$userdata = $userDao->where("id=".$userID)->select();
-			if ($userdata) {
-				$userdata["currentlistid"] = $listID;
-				$userDao->save($userdata);
-			}
+			$wordRefDao = D("Wordref");
+			$wordsInList = $wordRefDao->getWordsRefsByLib($listID);
+			$this->assign("wlist", $wordsInList);
+			$this->display("Home-Wordlist/studyList");
 		}
 		else {
-			$this->errMsg = "未登录";
-			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			$this->redirect("Home-Index/index", null, 1, "未登录");
 		}
 	}
-    
+
     public function viewList($listID)
     {
         if (A("User")->islogin())
@@ -101,8 +85,7 @@ class WordlistAction extends Action
             $this->assign("words", $words);
             $this->display("Home:Wordlist:viewlist");
         } else {
-            $this->errMsg = "未登录";
-			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			$this->redirect("Home-Index/index", null, 1, "未登录");
         }
     }
     
@@ -113,15 +96,16 @@ class WordlistAction extends Action
             if (!$wordrefId) $wordrefId = $_GET["wordrefId"];
             $wordrefDao = D("WordRef");
             $ret = $wordrefDao->deattachWordRefById($wordrefId);
+			$errMsg = "";
             if ($ret) {
-				$this->errMsg = "词条删除成功";
+				errMsg = "词条删除成功";
 			} else {
-				$this->errMsg = "删除错误";
+				errMsg = "删除错误";
 			}
         } else {
-            $this->errMsg = "未登录";
+            errMsg = "未登录";
         }
-        $this->redirect("Home-Index/index", null, 1, $this->errMsg);
+        $this->redirect("Home-Index/index", null, 1, errMsg);
     }
     
 	public function listWordListsByUser()
@@ -134,8 +118,7 @@ class WordlistAction extends Action
 			$this->display("Home:Wordlist:list");
 		}
 		else {
-			$this->errMsg = "未登录";
-			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
+			$this->redirect("Home-Index/index", null, 1, "未登录");
 		}
 	}
 }
