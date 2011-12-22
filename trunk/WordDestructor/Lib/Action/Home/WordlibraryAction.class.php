@@ -21,8 +21,12 @@ class WordlibraryAction extends Action
         if (A("User")->islogin()) //TODO: Admin Authorize (xyt)
         {
             if (!$libraryID) $libraryID = $_GET["libraryId"];
-            $libraryDao = D("Wordlibrary");
-            $ret = $libraryDao->removeWordLibrary($libraryID);
+            $wordrefDao = D("Wordref");
+            $wordrefDao->removeWordRefsByLib($libraryID);
+            $wordDao = D("Word");
+            $wordDao->removeWordsByLibId($libraryID);
+            $ret = $libraryDao = D("Wordlibrary");
+            $libraryDao->removeWordLibrary($libraryID);
             if ($ret) {
 				echo "词库删除成功";
 			} else {
