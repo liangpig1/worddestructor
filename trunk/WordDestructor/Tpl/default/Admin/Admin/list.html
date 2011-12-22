@@ -2,8 +2,29 @@
 <volist name="userList" id="vo" >
     <tr>
 	<td>{$vo.username}</td>
-	<td><a href="<?php echo U('Admin-Admin/removeUser/userID/'.$vo['id']);?>">删除</a></td>
-	<td><a href="<?php if ($vo['state']==0) echo U('Admin-Admin/freezeUser/userID/'.$vo['id']); else echo U('Admin-Admin/unfreezeUser/userID/'.$vo['id']); ?>"><eq name='vo.state' value='0'>冻结<else/>解冻</eq></a></td>
+	<td><a class=udelete href="<?php echo U('Admin-Admin/removeUser/userID/'.$vo['id']);?>">删除</a></td>
+	<td><a class=ufrz href="<?php if ($vo['state']==0) echo U('Admin-Admin/freezeUser/userID/'.$vo['id']); else echo U('Admin-Admin/unfreezeUser/userID/'.$vo['id']); ?>"><eq name='vo.state' value='0'>冻结<else/>解冻</eq></a></td>
+	<td><label class=hint></label></td>
     </tr>
 </volist>
 </table>
+<script type=text/javascript>
+	$(".udelete").click(function(){
+		hint = $(this).parent().next().next().children();
+		hint.text("删除中......");
+		$.get($(this).attr('href'), function(str){
+			hint.text(str);
+			$("#repo").load("{:U('Admin-Admin/listAllUsers');}");
+		});
+		return false;
+	});
+	$(".ufrz").click(function(){
+		hint = $(this).parent().next();
+		hint.text($(this).text()+"中......");
+		$.get($(this).attr('href'), function(str){
+			hint.text(str);
+			$("#repo").load("{:U('Admin-Admin/listAllUsers');}");
+		});
+		return false;
+	});
+</script>
