@@ -22,7 +22,7 @@ class WordlibraryAction extends Action
         {
             if (!$libraryID) $libraryID = $_GET["libraryId"];
             $wordrefDao = D("Wordref");
-            $wordrefDao->removeWordRefsByLib($libraryID);
+            $wordrefDao->removeWordrefsByLib($libraryID);
             $wordDao = D("Word");
             $wordDao->removeWordsByLibId($libraryID);
             $ret = $libraryDao = D("Wordlibrary");
@@ -71,8 +71,8 @@ class WordlibraryAction extends Action
 							break;
 						}
 					}
-					$wordRefDao = D("WordRef");
-					$wordRefDao->addWordRefsByLib($libID);
+					$wordrefDao = D("Wordref");
+					$wordrefDao->addWordrefsByLib($libID);
 					
 					$this->redirect("Home-Index/home", null, 1, "词库上传成功");
 				}
