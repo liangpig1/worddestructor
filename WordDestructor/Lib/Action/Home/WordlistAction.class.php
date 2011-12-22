@@ -14,6 +14,7 @@ class WordlistAction extends Action
 		{
 			if (!$listName) $listName = $_POST["listName"];
 			if (!$memConf) $memConf = $_POST["memConf"];
+			$memConf = implode($memConf);
 			if (!$wordnum) $wordnum = $_POST["wordsnumber"];
 			if (!$libraryID) $libraryID = $_POST["librID"];
 			$listDao = D("Wordlist");

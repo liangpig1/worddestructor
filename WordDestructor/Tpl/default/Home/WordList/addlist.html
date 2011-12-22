@@ -7,9 +7,25 @@
 			<div id=wordnum>
 				<label>单词数量</label><input type=text name=wordsnumber /><label class=hint></label>
 			</div>
-			<div id=memconf>
-				<label>记忆偏好</label><input type=text name=memConf /><label class=hint></label>
+			<div id=memo>
+				<label>记忆偏好</label>
+				<div id=memoconf>
+					<label>设置复习间隔天数</label><br/>
+					&nbsp;&nbsp;<input type=text name=memConf[] style="width:40px" />
+				</div>
+				<button id=inc>增加记忆次数</button>
 			</div>
+<script type=text/javascript>
+	var cnt = 1;
+	$("#inc").click(function(){
+			if (cnt < 9) {
+				$("#memoconf input:last-child").after("<br/>&nbsp;&nbsp;<input type=text name=memConf[] style='width:40px' />");
+				++cnt;
+			}
+			else alert("复习次数到达上限");
+		return false;
+	});
+</script>
 			<div id=libid>
 				<input type=hidden name=librID value={$libraryID} />
 			</div>
@@ -41,7 +57,9 @@ $("#submit button").click(function(){
 		$("#submit .hint").text("信息不符合要求");
 		return false;
 	}else{
-	$.post($("#addlist").attr("action"), $("#addlist").serialize(), 
+		form=$("#addlist").serialize();
+		form=decodeURIComponent(form);	// make %5... back to '[' ']'
+		$.post($("#addlist").attr("action"), form,
 		function(str){
 			if (!isNaN(parseInt(str))) {
 				id = parseInt(str);
