@@ -112,5 +112,12 @@ class UserAction extends Action
 	{
 		return $this->errMsg;
 	}
+
+	public function isUserExist($name) {
+		if (!$name) $name = $_GET["username"];
+		$userDao = D("User");
+		if ($userDao->getUserByName($name)) echo 1;
+		else echo 0;
+	}
 }
 ?>
