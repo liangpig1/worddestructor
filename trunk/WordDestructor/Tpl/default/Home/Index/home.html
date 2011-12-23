@@ -89,7 +89,7 @@
 		
 		<div class="menu">
 			<div class=menu_title id=list_all_wordlist>词单</div>
-			<div class=menu_title>词典</div>
+			<div class=menu_title id=look_up_dictionary>词典</div>
 			<div class=menu_title id=change_password>更改密码</div>
             <eq name="authority" value="1">
 			<div class=menu_title>管理员</div>
@@ -136,6 +136,9 @@ $("#list_all_wordlist").click(function(){
 		$.get("{:U('Home-Wordlist/listWordListsByUser');}", function(str){
 			$("#repo").html(str);
 		});
+});
+$("#look_up_dictionary").click(function(){
+		$("#repo").text("载入词典中...请稍后");
 });
 $("#change_password").click(function(){
 		$("#repo").text("载入中...请稍候");

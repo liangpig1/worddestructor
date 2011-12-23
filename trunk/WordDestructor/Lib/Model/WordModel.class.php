@@ -12,7 +12,18 @@ class WordModel extends Model
 	{
 		return $this->addAll($wordCollection);
 	}
+	
+	public function getWordByEng($Eng){
+		
+		$condition['eng'] = array("eq",$Eng);
+		return $this->where($condition)->select();
+	}
     
+	public function getWordByChn($Chn){
+		$condition['chn'] = array("like",'%'.$Chn.'%');
+		return $this->where($condition)->select();
+	}
+	
     public function removeWordsByLibId($libId)
     {
         return $this->where("libID=".$libId)->delete();
