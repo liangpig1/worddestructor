@@ -5,7 +5,7 @@
 	
 	<div class="menu">
 	<div id=registerblock>
-		<h1>注册</h1>
+		<h3>注册</h3>
 		<form id=register method=post action=__APP__/User/register>
 			<div id=uname>
 				<label>用户名&nbsp&nbsp</label><input type=text name=username /><label class=hint></label>
@@ -22,7 +22,7 @@
 		</form>
 	</div>
 	<div id=loginblock>
-		<h1>登录</h1>
+		<h3>登录</h3>
 		<form id=login method=post action=__APP__/User/login>
 			<div>
 			<label>用户名&nbsp&nbsp</label><input type=text name=username />
@@ -68,14 +68,25 @@ $("#register").submit(function(){
 </script>
 
 	<div id=dictionary class="main">
-		<h1>查词</h1>
+		<h3>查词</h3>
 		<form id=lookup method=post action=__APP__/dictionary/lookUpWord />
 			<input type=text name=searchContent id=searchContent /> <input id=dolookup type=submit value="Look up" />
 		</form>
 		<div id=result>
 		</div>
 	</div>
+	
+	<div class="clear"></div>
+	
+	<div class="info">
+			<div class="info_text">
+				All rights reserved.
+			</div>
+			
 	</div>
+	</div>
+	
+	
 <script type=text/javascript>
 	$("#dolookup").click(function(){
 		form = $("#lookup").serialize();
