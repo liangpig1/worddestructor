@@ -6,6 +6,11 @@ class WordlibraryModel extends Model
 		return $this->where("id=".$libraryID)->select();
 	}
 	
+	public function getLibraryByID($libraryID)
+	{
+		return $this->where("id=".$libraryID)->select();
+	}
+	
 	public function getAllLibraries()
 	{
 		return $this->select();
