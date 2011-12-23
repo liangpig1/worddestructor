@@ -12,7 +12,7 @@ class WordrefModel extends Model
             $data["wordId"] = $word["id"];
             $data["state"] = 0; //state == 0表示未学习
             $data["listId"] = 0; //listId == 0表示未在任何词单内
-            $data["libID"] = $word["libId"];
+            $data["libId"] = $word["libID"];
             $data["userId"] = $userId;
             array_push($datas, $data);
         }
@@ -86,10 +86,12 @@ class WordrefModel extends Model
         return $this->where($condition)->save($info);
     }
 
-    public function deattachWordrefById($id)
+    public function deattachWordrefById($wordId, $userId)
     {
+        $condition["wordId"] = $wordId;
+        $condition["userId"] = $userId;
         $info["listId"] = 0;
-        return $this->where("id=".$id)->save($info);
+        return $this->where($condition)->save($info);
     }
     
     public function deattachWordrefsByList($listId)

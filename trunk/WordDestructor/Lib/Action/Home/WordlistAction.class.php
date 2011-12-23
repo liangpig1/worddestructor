@@ -122,13 +122,13 @@ class WordlistAction extends Action
         }
     }
     
-    public function deattachWordref($wordrefId)
+    public function deattachWordref($wordId)
     {
         if (A("User")->islogin())
         {
-            if (!$wordrefId) $wordrefId = $_GET["wordrefId"];
+            if (!$wordId) $wordId = $_GET["wordrefId"];
             $wordrefDao = D("Wordref");
-            $ret = $wordrefDao->deattachWordrefById($wordrefId);
+            $ret = $wordrefDao->deattachWordrefById($wordId, $_SESSION["uid"]);
 			$errMsg = "";
             if ($ret) {
 				$errMsg = "词条删除成功";
