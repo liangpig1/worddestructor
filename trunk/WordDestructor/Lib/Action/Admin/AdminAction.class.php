@@ -1,8 +1,6 @@
 <?php
 class AdminAction extends Action
 {
-	public static $errMsg;
-
 	public function authorize($userID)
 	{
 		if (!$userID) $userID = $_SESSION["uid"];
@@ -18,10 +16,10 @@ class AdminAction extends Action
 	public function freezeUser($userID)
 	{
 		if (!$userID) $userID = $_GET["userID"];
-		if (A("User")->islogin() && $this->authorize()) {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			if ($userID == $_SESSION["uid"]) {
-				$this->errMsg = "用户无法冻结自己";
-				echo $this->errMsg;
+				echo "用户无法冻结自己";
 			}
 			else {
 				$userDao = D("User");
@@ -32,25 +30,22 @@ class AdminAction extends Action
 					echo "用户冻结成功";
 				}
 				else {
-					$this->errMsg = "找不到指定用户";
-					echo $this->errMsg;
+					echo "找不到指定用户";
 				}
 			}
 		}
-		else {
-			$this->errMsg = "无权限冻结用户";
+		catch (Exception $e){
 			echo 0;
-			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
 	}
 
 	public function unfreezeUser($userID)
 	{
 		if (!$userID) $userID = $_GET["userID"];
-		if (A("User")->islogin() && $this->authorize()) {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			if ($userID == $_SESSION["uid"]) {
-				$this->errMsg = "用户无法解冻自己";
-				echo $this->errMsg;
+				echo "用户无法解冻自己";
 			}
 			else {
 				$userDao = D("User");
@@ -61,13 +56,11 @@ class AdminAction extends Action
 					echo "用户解冻成功";
 				}
 				else {
-					$this->errMsg = "找不到指定用户";
-					echo $this->errMsg;
+					echo "找不到指定用户";
 				}
 			}
 		}
-		else {
-			$this->errMsg = "无权限解冻用户";
+		catch (Exception $e){
 			echo 0;
 			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
@@ -76,10 +69,10 @@ class AdminAction extends Action
 	public function removeUser($userID)
 	{
 		if (!$userID) $userID = $_GET["userID"];
-		if (A("User")->islogin() && $this->authorize()) {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			if ($userID == $_SESSION["uid"]) {
-				$this->errMsg = "用户无法删除自己";
-				echo $this->errMsg;
+				echo "用户无法删除自己";
 			}
 			else {
 				$userDao = D("User");
@@ -93,8 +86,7 @@ class AdminAction extends Action
 				//$this->redirect("Home-index/home", null, 1, "删除成功");
 			}
 		}
-		else {
-			$this->errMsg = "无权限删除用户";
+		catch (Exception $e){
 			echo 0;
 			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
@@ -102,14 +94,14 @@ class AdminAction extends Action
 
 	public function listAllUsers()
 	{
-		if (A("User")->islogin() && $this->authorize()) {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			$userDao = D("User");
 			$userList = $userDao->getAllUsers();
 			$this->assign("userList", $userList);
 			$this->display("Admin:Admin:list");
 		}
-		else {
-			$this->errMsg = "无权限查询用户";
+		catch (Exception $e){
 			echo 0;
 			//$this->redirect("Home-Index/home", null, 1, $this->errMsg);
 		}

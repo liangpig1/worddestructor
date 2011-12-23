@@ -3,15 +3,22 @@ class WordlistAction extends Action
 {
 	public function addListByLibrary($libraryID)
 	{
-		if (!$libraryID) $libraryID = $_GET["libraryID"];
-		$this->assign("libraryID",$libraryID);
-		$this->display("Home:WordList:addlist");
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			if (!$libraryID) $libraryID = $_GET["libraryID"];
+			$this->assign("libraryID",$libraryID);
+			$this->display("Home:WordList:addlist");
+		}
+		catch (Exception $e)
+		{
+			echo "没有权限添加词单";
+		}
 	}
 	
 	public function addList($listName, $memConf,$wordnum, $libraryID)
-	{//TODO random seed
-		if (A("User")->islogin())
-		{
+	{
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			if (!$listName) $listName = $_POST["listName"];
 			if (!$memConf) $memConf = $_POST["memConf"];
 			$memConf = implode($memConf);
@@ -50,29 +57,30 @@ class WordlistAction extends Action
 			}
 			else echo "添加失败";
 		}
-		else {
+		catch (Exception $e)
+		{
 			echo "未登录";
-			$this->redirect("Home-Index/index", null, 1, "未登录");
 		}
 	}
 
 	public function addWordToList($listId, $wordId)
 	{
-		if (A("User")->islogin())
-		{
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $userId = $_SESSION["uid"];
             $wordrefDao = D("Wordref");
             $ret = $wordrefDao->attachWordrefToList($userId, $wordId, $listId);
 		}
-		else {
-        	$this->redirect("Home-Index/home", null, 1, "未登录");
+		catch (Exception $e)
+		{
+			echo "未登录";
 		}
 	}
 
 	public function removeList($listID)
 	{
-		if (A("User")->islogin())
-		{
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			if (!$listID) $listID = $_GET["listID"];
 			$listDao = D("Wordlist");
 			$ret = $listDao->removeWordList($listID);
@@ -81,15 +89,18 @@ class WordlistAction extends Action
 			} else {
 				$this->redirect("Home-Index/home", null, 1, "指定词单未找到");
 			}
-		} else {
-			$this->redirect("Home-Index/index", null, 1,"未登录");
+		}
+		catch (Exception $e)
+		{
+			echo "未登录";
 		}
 	}
 
     public function viewList($listID)
     {
-        if (A("User")->islogin())
-        {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+
             if (!$listID) $listID = $_GET["listID"];
             $wordrefDao = D("Wordref");
             $wordrefs = $wordrefDao->getWordrefsByList($listID);
@@ -102,78 +113,82 @@ class WordlistAction extends Action
             $this->assign("words", $words);
 			$this->assign("listID", $listID);
             $this->display("Home:Wordlist:viewlist");
-        } else {
-			$this->redirect("Home-Index/index", null, 1, "未登录");
-        }
+		} 	
+		catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
     
     public function deattachWordref($wordId)
     {
-        if (A("User")->islogin())
-        {
+       try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+
             if (!$wordId) $wordId = $_GET["wordrefId"];
             $wordrefDao = D("Wordref");
             $ret = $wordrefDao->deattachWordrefById($wordId, $_SESSION["uid"]);
-			$errMsg = "";
             if ($ret) {
-				$errMsg = "词条删除成功";
+				echo "词条删除成功";
 			} else {
-				$errMsg = "删除错误";
+				echo  "删除错误";
 			}
-        } else {
-            $errMsg = "未登录";
-        }
-        $this->redirect("Home-Index/index", null, 1, $errMsg);
+	   }
+        catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
     
     public function learnedWordref($wordId)
     {
-        if (A("User")->islogin())
-        {
+       try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+
             if (!$wordId) $wordId = $_GET["wordrefId"];
             $wordrefDao = D("Wordref");
             $info["id"] = $wordId;
             $info["state"] = 1;
             $wordrefDao->setWordref($info);
             $ret = $wordrefDao->deattachWordrefById($wordId, $_SESSION["uid"]);
-			$errMsg = "";
             if ($ret) {
-				$errMsg = "词条删除成功";
+				echo "词条删除成功";
 			} else {
-				$errMsg = "删除错误";
+				echo "删除错误";
 			}
-        } else {
-            $errMsg = "未登录";
-        }
-        $this->redirect("Home-Index/index", null, 1, $errMsg);
+	   } 
+	   catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
     
     public function giveupWordref($wordId)
     {
-        if (A("User")->islogin())
-        {
+       try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             if (!$wordId) $wordId = $_GET["wordrefId"];
             $wordrefDao = D("Wordref");
             $info["id"] = $wordId;
             $info["state"] = 2;
             $wordrefDao->setWordref($info);
             $ret = $wordrefDao->deattachWordrefById($wordId, $_SESSION["uid"]);
-			$errMsg = "";
             if ($ret) {
-				$errMsg = "词条删除成功";
+				echo "词条删除成功";
 			} else {
-				$errMsg = "删除错误";
+				echo "删除错误";
 			}
-        } else {
-            $errMsg = "未登录";
-        }
-        $this->redirect("Home-Index/index", null, 1, $errMsg);
+	   }
+        catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
     
 	public function listWordListsByUser()
 	{
-		if (A("User")->islogin())
-		{
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			$listDao = D("Wordlist");
 			$lists = $listDao->getListsByUser($_SESSION["uid"]);
             $wordLists = Array();
@@ -203,8 +218,9 @@ class WordlistAction extends Action
 			$this->assign("wordLists", $wordLists);
 			$this->display("Home:Wordlist:list");
 		}
-		else {
-			$this->redirect("Home-Index/index", null, 1, "未登录");
+		catch (Exception $e)
+		{
+			echo "未登录";
 		}
 	}
 	
@@ -216,8 +232,8 @@ class WordlistAction extends Action
 	}
     
     public function studyList($listId) {
-        if (A("User")->islogin())
-		{
+        try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             if (!$listId) $listId = $_GET["listID"];
             
             $uid = $_SESSION["uid"];
@@ -237,14 +253,15 @@ class WordlistAction extends Action
             D("Test")->addAll($tests);
             $this->display("Home:Wordlist:studysel");
         }
-		else {
-			$this->redirect("Home-Index/index", null, 1, "未登录");
+		catch (Exception $e)
+		{
+			echo "未登录";
 		}
     }
     
     public function studyc2e() {
-        if (A("User")->islogin())
-		{
+       try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -295,14 +312,15 @@ class WordlistAction extends Action
                 $this->display("Home:Wordlist:finishstudy");
             }
         }
-		else {
-			$this->redirect("Home-Index/index", null, 1, "未登录");
+		catch (Exception $e)
+		{
+			echo "未登录";
 		}
     }
     
     public function correctc2e() {
-        if (A("User")->islogin())
-        {
+        try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -327,14 +345,16 @@ class WordlistAction extends Action
                     D("Test")->where($condition)->save($dataa);
                 }                
             }
-        } else {
-            $this->redirect("Home-Index/index", null, 1, "未登录");
-        }
+		}
+		catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
     
     public function checkc2e() {
-        if (A("User")->islogin())
-        {
+       try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -365,14 +385,16 @@ class WordlistAction extends Action
             $this->assign("listName", $listName);
             $this->assign("studyList", $studyList);
             $this->display("Home:Wordlist:checkc2e");
-        } else {
-            $this->redirect("Home-Index/index", null, 1, "未登录");
-        }
+	   } 
+	   catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
     
     public function studye2c() {
-        if (A("User")->islogin())
-		{
+       try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -428,15 +450,16 @@ class WordlistAction extends Action
                 $this->display("Home:Wordlist:finishstudy");
             }
         }
-		else {
-			$this->redirect("Home-Index/index", null, 1, "未登录");
+		catch (Exception $e)
+		{
+			echo "未登录";
 		}
     }
     
     public function correcte2c()
     {
-        if (A("User")->islogin())
-        {
+        try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -455,15 +478,17 @@ class WordlistAction extends Action
                 $datac["lastans"] = "biu";
                 D("Test")->where($condition)->save($datac);          
             }
-        } else {
-            $this->redirect("Home-Index/index", null, 1, "未登录");
-        }
+		} 
+		catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
     
     public function checke2c()
     {
-        if (A("User")->islogin())
-        {
+        try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -494,9 +519,11 @@ class WordlistAction extends Action
             $this->assign("listName", $listName);
             $this->assign("studyList", $studyList);
             $this->display("Home:Wordlist:checke2c");
-        } else {
-            $this->redirect("Home-Index/index", null, 1, "未登录");
-        }
+		} 
+		catch (Exception $e)
+		{
+			echo "未登录";
+		}
     }
 }
 ?>
