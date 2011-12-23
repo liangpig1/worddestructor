@@ -1,3 +1,9 @@
+	<div class="container">
+	<div class="title">
+		<div class="title_text">砍单词 WordsDestructor</div>
+	</div>
+	
+	<div class="menu">
 	<div id=registerblock>
 		<h1>注册</h1>
 		<form id=register method=post action=__APP__/User/register>
@@ -18,12 +24,19 @@
 	<div id=loginblock>
 		<h1>登录</h1>
 		<form id=login method=post action=__APP__/User/login>
-			<label>用户名</label><input type=text name=username />
-			<label>密码</label><input type=password name=pwd />
+			<div>
+			<label>用户名&nbsp&nbsp</label><input type=text name=username />
+			</div>
+			<div>
+			<label>密码&nbsp&nbsp&nbsp&nbsp</label><input type=password name=pwd />
+			</div>
+			<div>
 			<input type=submit value=提交 />
+			</div>
 		</form>
 	</div>
-	
+	</div>
+
 	
 <script type=text/javascript>
 
@@ -46,7 +59,7 @@ $("#pwd_re input").blur(function(){
 $("#register").submit(function(){
 	$("#uname input").blur();
 	$("#pwd input").blur();
-	$("#pwd_re input").blur();
+	$("#pwd_re input"	).blur();
 	if (!flag) {
 		$("#submit .hint").text("信息不符合要求");
 		return false;
@@ -54,7 +67,7 @@ $("#register").submit(function(){
 });
 </script>
 
-	<div id=dictionary>
+	<div id=dictionary class="main">
 		<h1>查词</h1>
 		<form id=lookup method=post action=__APP__/dictionary/lookUpWord />
 			<input type=text name=searchContent id=searchContent /> <input id=dolookup type=submit value="Look up" />
@@ -62,7 +75,7 @@ $("#register").submit(function(){
 		<div id=result>
 		</div>
 	</div>
-	
+	</div>
 <script type=text/javascript>
 	$("#dolookup").click(function(){
 		form = $("#lookup").serialize();
