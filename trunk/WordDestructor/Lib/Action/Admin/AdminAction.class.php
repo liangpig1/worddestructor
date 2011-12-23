@@ -1,18 +1,6 @@
 <?php
 class AdminAction extends Action
 {
-	public function authorize($userID)
-	{
-		if (!$userID) $userID = $_SESSION["uid"];
-		$userDao = D("User");
-		$user = $userDao->getUserByID($userID);
-		if ($user = $userDao->getUserByID($userID))
-		{
-			if ($user["authority"]==true) return true; else return false;
-		}
-		else return false;
-	}
-
 	public function freezeUser($userID)
 	{
 		if (!$userID) $userID = $_GET["userID"];
