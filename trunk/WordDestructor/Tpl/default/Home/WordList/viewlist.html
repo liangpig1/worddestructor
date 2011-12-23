@@ -11,7 +11,9 @@
     <tr>
     <td>{$vo.eng}</td>
 	<td>{$vo.chn}</td>
-    <td><a class=delWordInList href="<?php echo U('Home-Wordlist/deattachWordref/wordrefId/'.$vo['id']);?>" >从词单中删除</a></td>
+    <td><a class=delWordInList href="<?php echo U('Home-Wordlist/deattachWordref/wordrefId/'.$vo['id']);?>" >以后再学</a></td>
+    <td><a class=learnedInList href="<?php echo U('Home-Wordlist/learnedWordref/wordrefId/'.$vo['id']);?>" >已学会</a></td>
+    <td><a class=giveupInList href="<?php echo U('Home-Wordlist/giveupWordref/wordrefId/'.$vo['id']);?>" >放弃学习</a></td>
     <td><label class=hint></label></td>
 	</tr>
 </volist>
@@ -24,8 +26,28 @@ $(".returnViewList").click(function(){
     return false;
 });
 $(".delWordInList").click(function(){
+    hint = $(this).parent().next().next().next().children();
+    hint.text("操作中......");
+    $.get($(this).attr('href'), function(str){
+        hint.text(str);
+        url = '__APP__/index.php/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
+        $("#repo").load(url);
+    });
+    return false;
+});
+$(".learnedInList").click(function(){
+    hint = $(this).parent().next().next().children();
+    hint.text("操作中......");
+    $.get($(this).attr('href'), function(str){
+        hint.text(str);
+        url = '__APP__/index.php/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
+        $("#repo").load(url);
+    });
+    return false;
+});
+$(".giveupInList").click(function(){
     hint = $(this).parent().next();
-    hint.text($(this).text()+"中......");
+    hint.text("操作中......");
     $.get($(this).attr('href'), function(str){
         hint.text(str);
         url = '__APP__/index.php/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
