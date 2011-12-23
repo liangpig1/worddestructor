@@ -51,6 +51,7 @@ class WordrefModel extends Model
         $condition["userId"] = $userId;
         $condition["libId"] = $libId;
         $condition["listId"] = 0;
+        $condition["state"] = 0;
         return $this->where($condition)->select();
     }
     
