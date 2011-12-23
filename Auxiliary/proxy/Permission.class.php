@@ -58,6 +58,8 @@ class Permission {
 			"AdminAction.unfreezeUser"			=>	2,	
 			"AdminAction.removeUser"			=>	2,	
 			"AdminAction.listAllUser"			=>	2,	
+			"DictionaryAction.lookUpWord"		=>	0,
+			"DictionaryAction.show"				=>	0,
 		);
 	}
 
