@@ -1,7 +1,7 @@
 <div id=dictionary>
-	<h1>Look UP WORDS!!!</h1>
+	<h1>查词</h1>
 	<form id=lookup method=post action=__APP__/dictionary/lookUpWord />
-		<input type=text name=searchContent id=searchContent /> <input id=dolookup type=submit value="Look up" />
+		<input type=text name=searchContent id=searchContent onkeydown="KeyDown()"/> <input id=dolookup type=submit value="Look up" />
 	</form>
 	<div id=result>
 	</div>
@@ -15,5 +15,15 @@
 			$("#result").load("{:U('Dictionary/lookUpWord/searchContent/');}"+$("#searchContent").val());
 		});
 		return false;
+});
+	$("#searchContent").keydown(function(event){
+		if(event.which == 13){
+			form = $("#lookup").serialize();
+			form = decodeURIComponent(form);
+			$.post($("#lookup").attr("action"), form, function(str){
+				$("#result").load("{:U('Dictionary/lookUpWord/searchContent/');}"+$("#searchContent").val());
+			});
+			return false;
+		}
 });
 </script>
