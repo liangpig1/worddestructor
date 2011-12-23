@@ -5,10 +5,9 @@ class UserAction extends Action
 	{
 		if (!$regInfo) 
 			$regInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
-		if ($this->islogin()) {
-			$this->redirect("Home-Index/home", null, 1, "已登录，自动跳转至前页面...");
-		}
-		else {
+
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			$userDao = D("User");
 			if (checkuserdata($regInfo)) {
 				if ($userDao->getUserByName($regInfo["username"])) {
@@ -31,16 +30,19 @@ class UserAction extends Action
 				$this->redirect("Home-Index/home", null, 1, "信息不全");
 			}
 		}
+		catch (Exception $e)
+		{
+			$this->redirect("Home-Index/home", null, 1, "用户已经处于登录状态，无法注册");
+		}
 	}
 
 	public function login($logInfo)
 	{
 		if (!$logInfo) 
 			$logInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
-		if ($this->isLogin()) {
-			$this->redirect("Home-Index/home", null, 1, "已登录，自动登录前页面...");
-		}
-		else {
+
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			if (checkuserdata($logInfo)) {
 				$condition = array("username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]);
 				$userDao = D("User");
@@ -48,7 +50,7 @@ class UserAction extends Action
 				if ($user && $user["pwd"] == md5($logInfo["pwd"])) {
 					if ($user["state"] == 0) {
 						$_SESSION["uid"]=$user["id"];
-						$this->redirect("Home-Index/home", null, 1, "已登录，自动登录前页面...");
+						$this->redirect("Home-Index/home", null, 1, "登录成功");
 					}
 					else {
 						$this->redirect("Home-Index/index", null, 1, "用户已被冻结");
@@ -62,12 +64,16 @@ class UserAction extends Action
 				$this->redirect("Home-Index/index", null, 1, "登录信息不全");
 			}
 		}
+		catch (Exception $e)
+		{
+			$this->redirect("Home-Index/home", null, 1, "用户已经处于登录状态，返回登录前页面");
+		}
 	}
 
 	public function changePwd()
 	{
-		if ($this->islogin())
-		{
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			$pwd = $_POST["pwd"];
             $repeatpwd = $_POST["repeatpwd"];
             if ($pwd != $repeatpwd) {
@@ -85,39 +91,42 @@ class UserAction extends Action
                 }
             }
 		}
-		else {
+		catch (Exception $e)
+		{
 			$this->redirect("Home-Index/index", null, 1, "未登录，无法修改密码");
 		}
 	}
     
     public function showChangePwd()
     {
-        if ($this->islogin())
-		{
+		try {	
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $this->display(":user:changepwd");
         }
-		else {
+		catch (Exception $e) {
 			$this->redirect("Home-Index/index", null, 1, "未登录，无法修改密码");
 		}
     }
 
 	public function unlogin()
 	{
-		if ($this->islogin()) {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			unset($_SESSION["uid"]);
 			$this->redirect("Home-Index/index", null, 1, "已登出，自动跳转至首页...");
 		}
-		else {
+		catch (Exception $e)
+		{
 			$this->redirect("Home-Index/index", null, 1, "未登录，无法登出");
 		}
 	}
-
+/*
 	public function islogin() 
 	{
 		if (isset($_SESSION["uid"]) && $_SESSION["uid"] != "")
 			return true;
 		else return false;
-	}
+	}*/
 
 	public function isUserExist($name) {
 		if (!$name) $name = $_GET["username"];

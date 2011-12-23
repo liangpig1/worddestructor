@@ -3,13 +3,14 @@ class WordlibraryAction extends Action
 {
 	public function show()
 	{
-		if (A("User")->islogin()) //TODO: Admin Authorize (xyt)
-        {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             $libDao = D("Wordlibrary");
             $liblist = $libDao->getAllLibraries();
             $this->assign("libs", $liblist);
             $this->display("Home:Wordlibrary:show");
-        } else {
+		} 
+		catch (Exception $e){
             $errMsg = "无权限操作";
             echo 0;
 			//$this->redirect("Home-Index/index", null, 1, $errMsg);
@@ -18,8 +19,8 @@ class WordlibraryAction extends Action
     
 	public function removeLibrary($libraryID)
 	{
-        if (A("User")->islogin()) //TODO: Admin Authorize (xyt)
-        {
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
             if (!$libraryID) $libraryID = $_GET["libraryId"];
             $wordrefDao = D("Wordref");
             $wordrefDao->removeWordrefsByLib($libraryID);
@@ -32,7 +33,9 @@ class WordlibraryAction extends Action
 			} else {
 				echo "删除失败";
 			}
-        } else {
+		} 
+		catch (Exception $e)
+		{
             $errMsg = "无权限操作";
             echo 0;
 			//$this->redirect("Home-Index/index", null, 1, $errMsg);
@@ -41,8 +44,8 @@ class WordlibraryAction extends Action
 	
 	public function addLibrary($name)
 	{
-		if (A("User")->islogin()) //TODO only admin can
-		{
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			if (!$name) $name = $_POST["name"];
 			foreach ($_FILES as $file)
 			{
@@ -71,21 +74,23 @@ class WordlibraryAction extends Action
 				}
 			}
 		}
-		else {
+		catch (Exception $e)
+		{
 			$this->redirect("Home-Index/index", null, 1, "无权限");
 		}
 	}
 	
 	public function listAllLibrary()
 	{
-		if (A("User")->islogin())
-		{
+		try {
+			ProxyCollection::getInstance()->process($this, __FUNCTION__);
 			$libraryDao = D("Wordlibrary");
 			$wordLibraries = $libraryDao->getAllLibraries();
 			$this->assign("wordLibraries", $wordLibraries);
 			$this->display("Home:Wordlibrary:select_library");
 		}
-		else {
+		catch (Exception $e)
+		{
 			$this->errMsg = "未登录";
 			$this->redirect("Home-Index/index", null, 1, $this->errMsg);
 		}
