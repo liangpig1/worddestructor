@@ -21,7 +21,7 @@ class WordlibraryModel extends Model
 		return $this->where("id=".$libraryID)->delete();
 	}
 	
-	//ÐÂ½¨Ò»¸ö¿Õ´Ê¿â
+	//æ–°å»ºä¸€ä¸ªç©ºè¯åº“
 	public function addWordLibrary($libraryInfo)
 	{
 		return $this->add($libraryInfo);
