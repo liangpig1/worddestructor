@@ -38,6 +38,7 @@ class DictionaryAction extends Action
 			}
 			$this->assign("resultList", $resultList);
 			$this->assign("isEnglish", $isEnglish);
+			$this->assign("length",count( $resultList));
 			$this->display(":Dictionary:listresult");
 		}
 		catch (Exception $e)
