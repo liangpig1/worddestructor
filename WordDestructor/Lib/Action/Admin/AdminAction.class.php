@@ -5,7 +5,7 @@ class AdminAction extends Action
 	{
 		if (!$userID) $userID = $_GET["userID"];
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if ($userID == $_SESSION["uid"]) {
 				echo "用户无法冻结自己";
 			}
@@ -31,7 +31,7 @@ class AdminAction extends Action
 	{
 		if (!$userID) $userID = $_GET["userID"];
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if ($userID == $_SESSION["uid"]) {
 				echo "用户无法解冻自己";
 			}
@@ -58,7 +58,7 @@ class AdminAction extends Action
 	{
 		if (!$userID) $userID = $_GET["userID"];
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if ($userID == $_SESSION["uid"]) {
 				echo "用户无法删除自己";
 			}
@@ -83,7 +83,7 @@ class AdminAction extends Action
 	public function listAllUsers()
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$userDao = D("User");
 			$userList = $userDao->getAllUsers();
 			$this->assign("userList", $userList);

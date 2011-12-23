@@ -1,5 +1,5 @@
 <?php
-class ProxyCollection {
+class ProxyFactory {
 	var $permission;
 
 	public function __construct(&$Permission)
@@ -25,7 +25,7 @@ class ProxyCollection {
 
 	public static function startProxy()
 	{
-		$proxy = new ProxyCollection($perm);
+		$proxy = new ProxyFactory($perm);
 		$_SESSION["proxy"]=$proxy;
 	}
 
