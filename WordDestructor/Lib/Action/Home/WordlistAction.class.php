@@ -371,7 +371,12 @@ class WordlistAction extends Action
                 D("User")->updateUser($data);
                 if ($list["next"] < time()) {
                     $update["progress"] = $list["progress"] + 1;
-                    $day = 24 * 60 * 60 * ($list["memo"][$update["progress"]] - '0');
+                    if ($update["progress"] > strlen($list["memo"])) {
+                        $day = time() + 24 * 60 * 60 * 10000;
+                        D("Wordref")->setStateByList(1, $listId);
+                    } else {
+                        $day = 24 * 60 * 60 * ($list["memo"][$update["progress"]] - '0');
+                    }
                     $update["next"] = time() + $day;
                     $update["id"] = $listId;
                     D("Wordlist")->updateWordList($update);
