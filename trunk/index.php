@@ -9,10 +9,10 @@ session_start();
 
 require(THINK_PATH."/ThinkPHP.php");
 require(AUX."/Permission.class.php");
-require(AUX."/ProxyDispatcher.class.php");
+require(AUX."/ProxyFactory.class.php");
 require(AUX."/Exception.class.php");
 
-ProxyCollection::startProxy();
+ProxyFactory::startProxy();
 App::run();
 
 ?>

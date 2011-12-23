@@ -4,7 +4,7 @@ class WordlibraryAction extends Action
 	public function show()
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $libDao = D("Wordlibrary");
             $liblist = $libDao->getAllLibraries();
             $this->assign("libs", $liblist);
@@ -20,7 +20,7 @@ class WordlibraryAction extends Action
 	public function removeLibrary($libraryID)
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             if (!$libraryID) $libraryID = $_GET["libraryId"];
             $wordrefDao = D("Wordref");
             $wordrefDao->removeWordrefsByLib($libraryID);
@@ -45,7 +45,7 @@ class WordlibraryAction extends Action
 	public function addLibrary($name)
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if (!$name) $name = $_POST["name"];
 			foreach ($_FILES as $file)
 			{
@@ -83,7 +83,7 @@ class WordlibraryAction extends Action
 	public function listAllLibrary()
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$libraryDao = D("Wordlibrary");
 			$wordLibraries = $libraryDao->getAllLibraries();
 			$this->assign("wordLibraries", $wordLibraries);

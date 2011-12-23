@@ -4,7 +4,7 @@ class IndexAction extends Action
     public function index()
     {
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$this->assign("content", "Home:Index:index");
 			$this->display("Home:Public:base");
 		}
@@ -17,7 +17,7 @@ class IndexAction extends Action
 	public function home()
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$userDao = D("User");
 			$user = $userDao->getUserByID($_SESSION["uid"]);
 			$this->assign("authority", $user["authority"]);

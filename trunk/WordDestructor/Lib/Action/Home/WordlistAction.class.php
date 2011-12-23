@@ -4,7 +4,7 @@ class WordlistAction extends Action
 	public function addListByLibrary($libraryID)
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if (!$libraryID) $libraryID = $_GET["libraryID"];
 			$this->assign("libraryID",$libraryID);
 			$this->display("Home:WordList:addlist");
@@ -18,7 +18,7 @@ class WordlistAction extends Action
 	public function addList($listName, $memConf,$wordnum, $libraryID)
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if (!$listName) $listName = $_POST["listName"];
 			if (!$memConf) $memConf = $_POST["memConf"];
 			$memConf = implode($memConf);
@@ -66,7 +66,7 @@ class WordlistAction extends Action
 	public function addWordToList($listId, $wordId)
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $userId = $_SESSION["uid"];
             $wordrefDao = D("Wordref");
             $ret = $wordrefDao->attachWordrefToList($userId, $wordId, $listId);
@@ -80,7 +80,7 @@ class WordlistAction extends Action
 	public function removeList($listID)
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if (!$listID) $listID = $_GET["listID"];
 			$listDao = D("Wordlist");
 			$ret = $listDao->removeWordList($listID);
@@ -99,7 +99,7 @@ class WordlistAction extends Action
     public function viewList($listID)
     {
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 
             if (!$listID) $listID = $_GET["listID"];
             $wordrefDao = D("Wordref");
@@ -123,7 +123,7 @@ class WordlistAction extends Action
     public function deattachWordref($wordId)
     {
        try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 
             if (!$wordId) $wordId = $_GET["wordrefId"];
             $wordrefDao = D("Wordref");
@@ -143,7 +143,7 @@ class WordlistAction extends Action
     public function learnedWordref($wordId)
     {
        try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 
             if (!$wordId) $wordId = $_GET["wordrefId"];
             $wordrefDao = D("Wordref");
@@ -166,7 +166,7 @@ class WordlistAction extends Action
     public function giveupWordref($wordId)
     {
        try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             if (!$wordId) $wordId = $_GET["wordrefId"];
             $wordrefDao = D("Wordref");
             $info["id"] = $wordId;
@@ -188,7 +188,7 @@ class WordlistAction extends Action
 	public function listWordListsByUser()
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$listDao = D("Wordlist");
 			$lists = $listDao->getListsByUser($_SESSION["uid"]);
             $wordLists = Array();
@@ -233,7 +233,7 @@ class WordlistAction extends Action
     
     public function studyList($listId) {
         try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             if (!$listId) $listId = $_GET["listID"];
             
             $uid = $_SESSION["uid"];
@@ -261,7 +261,7 @@ class WordlistAction extends Action
     
     public function studyc2e() {
        try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -320,7 +320,7 @@ class WordlistAction extends Action
     
     public function correctc2e() {
         try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -354,7 +354,7 @@ class WordlistAction extends Action
     
     public function checkc2e() {
        try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -394,7 +394,7 @@ class WordlistAction extends Action
     
     public function studye2c() {
        try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -459,7 +459,7 @@ class WordlistAction extends Action
     public function correcte2c()
     {
         try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
@@ -488,7 +488,7 @@ class WordlistAction extends Action
     public function checke2c()
     {
         try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $uid = $_SESSION["uid"];
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];

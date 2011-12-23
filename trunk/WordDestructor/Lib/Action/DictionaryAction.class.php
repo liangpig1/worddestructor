@@ -3,7 +3,7 @@ class DictionaryAction extends Action
 {
 	public function show(){
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$this->display(":Dictionary:show");
 		}
 		catch (Exception $e)
@@ -13,7 +13,7 @@ class DictionaryAction extends Action
 	
 	public function lookUpWord($searchContent){
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 
 			if(!$searchContent) $searchContent = $_GET["searchContent"];
 			$WordDao = D("Word");

@@ -7,7 +7,7 @@ class UserAction extends Action
 			$regInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$userDao = D("User");
 			if (checkuserdata($regInfo)) {
 				if ($userDao->getUserByName($regInfo["username"])) {
@@ -42,7 +42,7 @@ class UserAction extends Action
 			$logInfo = array("username"=>$_POST["username"], "pwd"=>$_POST["pwd"]);
 
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			if (checkuserdata($logInfo)) {
 				$condition = array("username"=>$logInfo["username"], "pwd"=>$logInfo["pwd"]);
 				$userDao = D("User");
@@ -73,7 +73,7 @@ class UserAction extends Action
 	public function changePwd()
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$pwd = $_POST["pwd"];
             $repeatpwd = $_POST["repeatpwd"];
             if ($pwd != $repeatpwd) {
@@ -100,7 +100,7 @@ class UserAction extends Action
     public function showChangePwd()
     {
 		try {	
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
             $this->display(":user:changepwd");
         }
 		catch (Exception $e) {
@@ -111,7 +111,7 @@ class UserAction extends Action
 	public function unlogin()
 	{
 		try {
-			ProxyCollection::getInstance()->process($this, __FUNCTION__);
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			unset($_SESSION["uid"]);
 			$this->redirect("Home-Index/index", null, 1, "已登出，自动跳转至首页...");
 		}
