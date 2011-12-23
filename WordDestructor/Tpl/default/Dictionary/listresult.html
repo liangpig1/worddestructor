@@ -4,9 +4,8 @@
 <table>
 <volist name="resultList" id="vo">
 	<tr>
-	<td><eq name = "isEnglish" value = "true">{$vo.chn}<else/>{$vo.eng}</td><td>&nbsp </td><td>{$vo.chn}</eq></td>
-	<td>&nbsp </td>
-	<td>{$vo.libname}</td>
+	<td><eq name = "isEnglish" value = "true"><p>{$vo.chn}</p><else/><p>{$vo.eng}</p></td><td><p>{$vo.chn}</p></eq></td>
+	<td><p>{$vo.libname}</p></td>
 	</tr>
 </volist>
 </table>
