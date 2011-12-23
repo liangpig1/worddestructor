@@ -1,6 +1,7 @@
 <?php
 class Permission {
 	public $authority;
+	public $state;
 	public $map;
 	public $userID;
 
@@ -18,6 +19,7 @@ class Permission {
 			$this->authority = 0;
 		else {
 			$user = D("User")->getUserByID($userID);
+			$this->state = $user["state"];
 			if ($user["authority"] == 0) {
 				$this->authority = 1;
 			}
@@ -69,6 +71,7 @@ class Permission {
 
 	public function validate($className, $methodName)
 	{
+		if ($this->state == 1) throw new frozenException("用户被冻结");
 		$classMethod = "$className.$methodName";
 		if ($this->authority < $this->map[$classMethod])
 		{
