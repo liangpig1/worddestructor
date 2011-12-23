@@ -88,6 +88,7 @@ class AdminAction extends Action
                 $wordrefDao->removeWordrefsByUser($userID);
                 $wordlistDao = D("Wordlist");
                 $wordlistDao->removeWordListByUser($userID);
+                D("Test")->where("userId=".$userID)->delete();
 				echo "删除成功";
 				//$this->redirect("Home-index/home", null, 1, "删除成功");
 			}
