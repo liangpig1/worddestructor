@@ -1,0 +1,20 @@
+<div>
+<table>
+	<tr>
+		<th>操作模块</th>
+		<th>操作函数</th>
+		<th>用户ID</th>
+		<th>&nbsp;</th>
+	</tr>
+	<volist name="logList" id="vo">
+	<tr>
+		<td>{$vo.module}</td>
+		<td>{$vo.action}</td>
+		<td><?php if( $vo["userID"]== 0): ?>未登录用户<?php else:?>{$vo.userID}<?php endif;?></td>
+		<td><label class="hint"></label></td>
+	</tr>
+	</volist>
+</table>
+<script type=text/javascript >
+</script>
+</div>

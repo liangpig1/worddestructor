@@ -50,7 +50,6 @@ class AdminAction extends Action
 		}
 		catch (Exception $e){
 			echo 0;
-			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
 	}
 
@@ -64,19 +63,17 @@ class AdminAction extends Action
 			}
 			else {
 				$userDao = D("User");
-				$userDao->removeUserByID($userID); //TODO connected with relational model
+				$userDao->removeUserByID($userID);
                 $wordrefDao = D("Wordref");
                 $wordrefDao->removeWordrefsByUser($userID);
                 $wordlistDao = D("Wordlist");
                 $wordlistDao->removeWordListByUser($userID);
                 D("Test")->where("userId=".$userID)->delete();
 				echo "删除成功";
-				//$this->redirect("Home-index/home", null, 1, "删除成功");
 			}
 		}
 		catch (Exception $e){
 			echo 0;
-			//$this->redirect("Home-index/home", null, 1, $this->errMsg);
 		}
 	}
 
@@ -91,7 +88,22 @@ class AdminAction extends Action
 		}
 		catch (Exception $e){
 			echo 0;
-			//$this->redirect("Home-Index/home", null, 1, $this->errMsg);
+		}
+	}
+
+	public function listLog($logID)
+	{
+		try {
+			ProxyFactory::getInstance()->process($this, __FUNCTION__);
+			if (!$logID) $logID = $_GET["logID"];
+			$logDao = D("Log");
+			$logList = $logDao->listAllLogs();
+			$this->assign("logList", $logList);
+			$this->display(":Log:list");
+		}
+		catch (Exception $e)
+		{
+			echo "无足够权限查询日志";
 		}
 	}
 }
