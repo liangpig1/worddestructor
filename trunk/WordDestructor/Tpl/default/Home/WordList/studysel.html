@@ -1,0 +1,21 @@
+<h2>选择方式</h2>
+<h3>
+    <a class=study_c2e href=#>看中文默写英文<BR></a>
+    <a class=study_e2c href=#>看英文回忆中文<BR></a>
+    <a class=exit_study href=#>放弃学习<BR></a>
+</h3>
+
+<script type=text/javascript>
+    $(".exit_study").click(function(){
+        $("#repo").load("{:U('Home-Wordlist/listWordListsByUser');}");
+        return false;
+    });
+    $(".study_c2e").click(function(){
+        $("#repo").load("{:U('Home-Wordlist/studyc2e');}");
+        return false;
+    });
+    $(".study_e2c").click(function(){
+        $("#repo").load("{:U('Home-Wordlist/studye2c');}");
+        return false;
+    });
+</script>

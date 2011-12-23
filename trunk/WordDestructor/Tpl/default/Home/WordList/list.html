@@ -31,7 +31,7 @@
     </eq>
     <td><a class=del_list href="<?php echo U('Home-Wordlist/removeList/listID/'.$vo['id']);?>">删除</a></td>
     <td><a class=view_list href="<?php echo U('Home-Wordlist/viewList/listID/'.$vo['id']);?>">浏览</a></td>
-	<td><a href='{: U("Home-Wordlist/studylist/".$vo["id"]);}'>
+	<td><a class=study_list href="<?php echo U("Home-Wordlist/studyList/listID/".$vo["id"]);?>">
         <eq name="vo.done" value="0">
             <eq name="vo.test" value="1">测试!!!</eq>
             <eq name="vo.test" value="0">学习</eq>
@@ -48,6 +48,10 @@ $("#add_new_list").click(function(){
 	$("#repo").load("{:U('Home-Wordlibrary/listAllLibrary');}");
 });
 $(".view_list").click(function(){
+    $("#repo").load($(this).attr('href'));
+    return false;
+});
+$(".study_list").click(function(){
     $("#repo").load($(this).attr('href'));
     return false;
 });

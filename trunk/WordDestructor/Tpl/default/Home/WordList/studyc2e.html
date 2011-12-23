@@ -1,0 +1,38 @@
+<h2>学习词单{$listName}</h2>
+<h3>看中文默写英文<BR></h3>
+
+<h3><a class=exit_study href=#>放弃学习<BR></a></h3>
+
+<form id=studyc2e action="<?php echo U('Home-Wordlist/correctc2e');?>" method=post>
+<table>
+    <tr>
+        <td>中文</td>
+        <td>英文</td>
+    </tr>
+    <volist name="studyList" id="vo">
+    <tr>
+        <td>{$vo.chn}</td>
+        <td><input type=text name=answer[] style="width:200px" /></td>
+        <td><input type=text name=wordId[] style="display:none" value={$vo.wordId} /></td>
+    </tr>
+    </volist>
+</table>
+<div id=submit ><button>完成</button></div>
+</form>
+
+<h3><a class=exit_study href=#>放弃学习<BR></a></h3>
+<script type=text/javascript>
+    $(".exit_study").click(function(){
+        $("#repo").load("{:U('Home-Wordlist/listWordListsByUser');}");
+        return false;
+    });
+    $("#submit button").click(function(){
+        form=$("#studyc2e").serialize();
+		form=decodeURIComponent(form);
+		$.post($("#studyc2e").attr("action"), form,
+		function(str){
+            $("#repo").load("{:U('Home-Wordlist/checkc2e');}");
+		});
+        return false;
+    });
+</script>
