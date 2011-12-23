@@ -1,5 +1,5 @@
 <?php
-class UserModel extends Model
+class TestModel extends Model
 {
 }
 ?>
