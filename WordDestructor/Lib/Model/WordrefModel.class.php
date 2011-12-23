@@ -55,6 +55,11 @@ class WordrefModel extends Model
         return $this->where($condition)->select();
     }
     
+    public function setWordref($info)
+    {
+        return $this->save($info);
+    }
+    
     public function getWordrefsByUser($userId)
     {
         return $this->where("userId=".$userId)->select();

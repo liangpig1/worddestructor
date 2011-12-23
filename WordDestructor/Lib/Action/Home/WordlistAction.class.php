@@ -126,6 +126,50 @@ class WordlistAction extends Action
         $this->redirect("Home-Index/index", null, 1, $errMsg);
     }
     
+    public function learnedWordref($wordId)
+    {
+        if (A("User")->islogin())
+        {
+            if (!$wordId) $wordId = $_GET["wordrefId"];
+            $wordrefDao = D("Wordref");
+            $info["id"] = $wordId;
+            $info["state"] = 1;
+            $wordrefDao->setWordref($info);
+            $ret = $wordrefDao->deattachWordrefById($wordId, $_SESSION["uid"]);
+			$errMsg = "";
+            if ($ret) {
+				$errMsg = "词条删除成功";
+			} else {
+				$errMsg = "删除错误";
+			}
+        } else {
+            $errMsg = "未登录";
+        }
+        $this->redirect("Home-Index/index", null, 1, $errMsg);
+    }
+    
+    public function giveupWordref($wordId)
+    {
+        if (A("User")->islogin())
+        {
+            if (!$wordId) $wordId = $_GET["wordrefId"];
+            $wordrefDao = D("Wordref");
+            $info["id"] = $wordId;
+            $info["state"] = 2;
+            $wordrefDao->setWordref($info);
+            $ret = $wordrefDao->deattachWordrefById($wordId, $_SESSION["uid"]);
+			$errMsg = "";
+            if ($ret) {
+				$errMsg = "词条删除成功";
+			} else {
+				$errMsg = "删除错误";
+			}
+        } else {
+            $errMsg = "未登录";
+        }
+        $this->redirect("Home-Index/index", null, 1, $errMsg);
+    }
+    
 	public function listWordListsByUser()
 	{
 		if (A("User")->islogin())
