@@ -6,7 +6,7 @@ return array(
 	'DB_HOST' 	=> 'localhost',
 	'DB_NAME'	=> 'worddestructor',
 	'DB_USER' 	=> 'root',
-	'DB_PWD' 	=> 'admin',
+	'DB_PWD' 	=> '19920418',
 	'DB_PORT' 	=> '3306',
 	'DB_PREFIX' => 'wd_',
 	'URL_MODEL'	=>	1,

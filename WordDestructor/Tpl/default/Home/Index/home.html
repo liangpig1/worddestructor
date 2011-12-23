@@ -138,6 +138,9 @@ $("#list_all_wordlist").click(function(){
 });
 $("#look_up_dictionary").click(function(){
 		$("#repo").text("载入词典中...请稍后");
+		$.get("{:U('Dictionary/show');}",function(str){
+			$("#repo").html(str);
+		});
 });
 $("#change_password").click(function(){
 		$("#repo").text("载入中...请稍候");

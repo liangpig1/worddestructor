@@ -1,6 +1,10 @@
 <?php
 class DictionaryAction extends Action
 {
+	public function show(){
+		$this->display(":Dictionary:show");
+	}
+	
 	public function lookUpWord($searchContent){
 		
 		if(!$searchContent) $searchContent = $_GET["searchContent"];
