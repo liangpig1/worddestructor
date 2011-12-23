@@ -31,8 +31,9 @@
 		form=decodeURIComponent(form);
 		$.post($("#studyc2e").attr("action"), form,
 		function(str){
-            $("#repo").load("{:U('Home-Wordlist/checkc2e');}");
+            //$("#repo").load("{:U('Home-Wordlist/checkc2e');}");
 		});
-        return false;
+        //return false;
+        return true;
     });
 </script>
