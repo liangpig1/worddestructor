@@ -283,7 +283,6 @@ class WordlistAction extends Action
                     D("Test")->where($condition)->save($dataa);
                 }                
             }
-            dump(D("Test")->select());
         } else {
             $this->redirect("Home-Index/index", null, 1, "未登录");
         }
@@ -334,13 +333,121 @@ class WordlistAction extends Action
             $user = D("User")->getUserByID($uid);
             $listId = $user["test"];
             $list = D("Wordlist")->getListById($listId);
-            $listName = $list["name"];
-            $this->assign("listName", $listName);
-            $this->display("Home:Wordlist:studyc2e");
+            $info["lastans"] = "";
+            D("Test")->where("userId=".$uid)->save($info);
+            
+            $condition["userId"] = $uid;
+            $condition["correct"] = 0;
+            $reflist = D("Test")->where($condition)->select();
+            $studyList = Array();
+            foreach ($reflist as $ref)
+            {
+                $word = D("Word")->getWordById($ref["wordId"]);
+                $studycase["chn"] = $word["chn"];
+                $studycase["eng"] = $word["eng"];
+                $studycase["wordId"] = $word["id"];
+                array_push($studyList, $studycase);
+            }
+            
+            $size = count($studyList);
+            for ($i = 0; $i < $size; ++$i) {
+                $in1 = rand(0, $size - 1);
+                $in2 = rand(0, $size - 1);
+                $t = $studyList[$in1];
+                $studyList[$in1] = $studyList[$in2];
+                $studyList[$in2] = $t;
+            }
+            
+            if ($size > 0) 
+            {
+                $listName = $list["name"];
+                $this->assign("listName", $listName);
+                $this->assign("studyList", $studyList);
+                $this->display("Home:Wordlist:studye2c");
+            } else {
+                D("Test")->where("userId=".$uid)->delete();
+                $data["id"] = $uid;
+                $data["test"] = 0;
+                D("User")->updateUser($data);
+                if ($list["next"] < time()) {
+                    $update["progress"] = $list["progress"] + 1;
+                    $day = 24 * 60 * 60 * ($list["memo"][$update["progress"]] - '0');
+                    $update["next"] = time() + $day;
+                    $update["id"] = $listId;
+                    D("Wordlist")->updateWordList($update);
+                }
+                $this->display("Home:Wordlist:finishstudy");
+            }
         }
 		else {
 			$this->redirect("Home-Index/index", null, 1, "未登录");
 		}
+    }
+    
+    public function correcte2c()
+    {
+        if (A("User")->islogin())
+        {
+            $uid = $_SESSION["uid"];
+            $user = D("User")->getUserByID($uid);
+            $listId = $user["test"];
+            $reflist = D("Wordref")->getWordrefsByList($listId);
+            
+            $answers = $_POST["answer"];
+            $condition["userId"] = $uid;
+            dump($answers);
+            
+            for ($i = 0; $i < count($answers); ++$i) {
+                $wordId = $answers[$i];
+                $word = D("Word")->getWordById($wordId);
+                $condition["wordId"] = $wordId;
+                
+                $datac["correct"] = true;
+                $datac["lastans"] = "biu";
+                D("Test")->where($condition)->save($datac);          
+            }
+        } else {
+            $this->redirect("Home-Index/index", null, 1, "未登录");
+        }
+    }
+    
+    public function checke2c()
+    {
+        if (A("User")->islogin())
+        {
+            $uid = $_SESSION["uid"];
+            $user = D("User")->getUserByID($uid);
+            $listId = $user["test"];
+            $tests = D("Test")->where("userId=".$uid)->select();
+            
+            $resultList = Array();
+            foreach ($tests as $test)
+            {
+                if (($test["lastans"] == "biu") || (!$test["correct"])) {
+                    $wordId = $test["wordId"];
+                    $word = D("Word")->getWordById($wordId);
+                    $result["chn"] = $word["chn"];
+                    $result["eng"] = $word["eng"];
+                    if ($test["correct"]) {
+                        $result["error"] = false;
+                        $result["result"] = "记得";
+                    } else {
+                        $result["error"] = true;
+                        $result["result"] = "不记得";
+                    }
+                    array_push($resultList, $result);
+                }
+            }
+            
+            $this->assign("resultList", $resultList);
+            $list = D("Wordlist")->getListById($listId);
+            $listName = $list["name"];
+            $this->assign("listName", $listName);
+            $this->assign("studyList", $studyList);
+            $this->display("Home:Wordlist:checke2c");
+        } else {
+            $this->redirect("Home-Index/index", null, 1, "未登录");
+        }
     }
 }
 ?>

@@ -1,10 +1,37 @@
 <h2>学习词单{$listName}</h2>
-<h3>看英文回忆中文</h3>
+<h3>看英文回忆中文<BR></h3>
+
+<h3><a class=exit_study href=#>放弃学习<BR></a></h3>
+
+<form id=checke2c action="<?php echo U('Home-Wordlist/correcte2c');?>" method=post>
+<table>
+    <tr>
+        <td>英文</td>
+        <td>是否记得</td>
+    </tr>
+    <volist name="studyList" id="vo">
+    <tr>
+        <td>{$vo.eng}</td>
+        <td><input type=checkbox name=answer[] value={$vo.wordId} />记得</td>
+    </tr>
+    </volist>
+</table>
+<div id=submit ><button>完成</button></div>
+</form>
 
 <h3><a class=exit_study href=#>放弃学习<BR></a></h3>
 <script type=text/javascript>
     $(".exit_study").click(function(){
         $("#repo").load("{:U('Home-Wordlist/listWordListsByUser');}");
+        return false;
+    });
+    $("#submit button").click(function(){
+        form=$("#checke2c").serialize();
+		form=decodeURIComponent(form);
+		$.post($("#checke2c").attr("action"), form,
+		function(str){
+            $("#repo").load("{:U('Home-Wordlist/checke2c');}");
+		});
         return false;
     });
 </script>
