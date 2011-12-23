@@ -30,7 +30,7 @@ $(".delWordInList").click(function(){
     hint.text("操作中......");
     $.get($(this).attr('href'), function(str){
         hint.text(str);
-        url = '__APP__/index.php/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
+        url = '__APP__/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
         $("#repo").load(url);
     });
     return false;
@@ -40,7 +40,7 @@ $(".learnedInList").click(function(){
     hint.text("操作中......");
     $.get($(this).attr('href'), function(str){
         hint.text(str);
-        url = '__APP__/index.php/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
+        url = '__APP__/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
         $("#repo").load(url);
     });
     return false;
@@ -50,7 +50,7 @@ $(".giveupInList").click(function(){
     hint.text("操作中......");
     $.get($(this).attr('href'), function(str){
         hint.text(str);
-        url = '__APP__/index.php/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
+        url = '__APP__/Home/Wordlist/viewList/listID/' + $(".listIdInfo").text();
         $("#repo").load(url);
     });
     return false;
