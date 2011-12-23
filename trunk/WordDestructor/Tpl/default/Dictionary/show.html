@@ -1,0 +1,19 @@
+<div id=dictionary>
+	<h1>Look UP WORDS!!!</h1>
+	<form id=lookup method=post action=__APP__/dictionary/lookUpWord />
+		<input type=text name=searchContent id=searchContent /> <input id=dolookup type=submit value="Look up" />
+	</form>
+	<div id=result>
+	</div>
+</div>
+
+<script type=text/javascript>
+	$("#dolookup").click(function(){
+		form = $("#lookup").serialize();
+		form = decodeURIComponent(form);
+		$.post($("#lookup").attr("action"), form, function(str){
+			$("#result").load("{:U('Dictionary/lookUpWord/searchContent/');}"+$("#searchContent").val());
+		});
+		return false;
+});
+</script>
