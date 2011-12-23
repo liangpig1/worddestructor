@@ -10,7 +10,6 @@ class IndexAction extends Action
 		}
 		catch (Exception $e)
 		{
-			$this->redirect("Home-index/index", null, 1, $e->getMessage());
 		}
     }
 
@@ -20,12 +19,13 @@ class IndexAction extends Action
 			ProxyFactory::getInstance()->process($this, __FUNCTION__);
 			$userDao = D("User");
 			$user = $userDao->getUserByID($_SESSION["uid"]);
+			$this->assign("username", $user["username"]);
 			$this->assign("authority", $user["authority"]);
 			$this->assign("content", "Home:Index:home");
 			$this->display("Home:Public:base");
 		}
 		catch (Exception $e) {
-			//$this->redirect("Home-Index/index", null, 1, $e->getMessage());
+			$this->redirect("Home-Index/index", null, 1, "用户未登录");
 		}
 	}
 }
