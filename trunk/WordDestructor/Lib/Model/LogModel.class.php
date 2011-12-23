@@ -1,8 +1,8 @@
 <?php
 class LogModel extends Model {
-	public function insertLog($module, $operation, $params, $userID)
+	public function insertLog($moduleName, $actionName, $userID)
 	{
-		return $this->add(array("module"=>$module, "operation"=>$opr, "params"=>$params, "userID"=>$userID));
+		return $this->add(array("module"=>$moduleName, "action"=>$actionName,"userID"=>$userID));
 	}
 
 	public function removeLog($logID)

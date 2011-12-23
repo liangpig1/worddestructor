@@ -18,7 +18,7 @@
 			<div class=menu_title>管理员</div>
                 <div class=menu_entry id=libButton>词库</div>
                 <div class=menu_entry id=list_all_user>用户</div>
-                <div class=menu_entry>日志</div>
+                <div class=menu_entry id=list_all_log>日志</div>
             </eq>
 			<div class=menu_title><a href=<?php echo U("User/unlogin"); ?>>退出</a></div>
 		</div>
@@ -71,5 +71,11 @@ $("#change_password").click(function(){
 		$.get("{:U('User/showChangePwd');}", function(str){
 			$("#repo").html(str);
 		});
+});
+$("#list_all_log").click(function(){
+	$("#repo").text("载入日志中...请稍候");
+	$.get("{:U('Admin-Admin/listLog');}", function(str){
+		$("#repo").html(str);
+	});
 });
 </script>

@@ -2,6 +2,7 @@
 class Permission {
 	public $authority;
 	public $map;
+	public $userID;
 
 	public function __construct($userID)
 	{
@@ -11,6 +12,8 @@ class Permission {
 
 	public function updateAuthority($userID)
 	{
+		$this->userID = $userID;
+		if ($this->userID==null) $this->userID = 0;
 		if ($userID == null || $userID == "" || $userID == 0)
 			$this->authority = 0;
 		else {
@@ -58,6 +61,7 @@ class Permission {
 			"AdminAction.unfreezeUser"			=>	2,	
 			"AdminAction.removeUser"			=>	2,	
 			"AdminAction.listAllUser"			=>	2,	
+			"AdminAction.listLog"				=>	2,
 			"DictionaryAction.lookUpWord"		=>	0,
 			"DictionaryAction.show"				=>	0,
 		);

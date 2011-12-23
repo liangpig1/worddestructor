@@ -9,9 +9,13 @@ class ProxyFactory {
 
 	public function process(&$obj, $actionName)
 	{
+		$logDao = D("Log");
+		$this->permission = new Permission($_SESSION["uid"]);
+		$class = get_class($obj);
+		$sclass = substr($class, 0, strlen($class)-6);
+		$logDao->insertLog($sclass, $actionName, $this->permission->userID);
 		try {
-			$this->permission = new Permission($_SESSION["uid"]);
-			$this->permission->validate(get_class($obj), $actionName);
+			$this->permission->validate($class, $actionName);
 		}
 		catch (unloginException $e)
 		{
